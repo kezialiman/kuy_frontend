@@ -19,5 +19,18 @@
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "kuy",
+  "version": "1.0.0",
+  "description": "neighborhood-hacks project",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kezialiman/kuy_frontend.git"
+  },
+  "author": "kezialiman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kezialiman/kuy_frontend/issues"
+  },
+  "homepage": "https://github.com/kezialiman/kuy_frontend#readme"
 }
