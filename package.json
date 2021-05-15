@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "expo": "~41.0.1",
     "expo-status-bar": "~1.0.4",
@@ -17,7 +18,9 @@
     "react-native-cli": "^2.0.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-maps": "^0.28.0",
+    "react-native-ratings": "^8.0.4",
     "react-native-screens": "3.2.0",
+    "react-native-stars": "^1.2.2",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.4",
     "yelp-fusion": "^3.0.0"
