@@ -47,7 +47,7 @@ export const Tabs = () => {
           ...styles.shadow
         }
       }}>
-      <Tab.Screen name="Search" component={MapScreen} options={{
+      <Tab.Screen name="Search" component={() => MapScreen(30, 30)} options={{
         tabBarIcon: ({focused}) =>(
           <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
@@ -56,10 +56,10 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#e32f45' : '#748c94'
+                tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
-            <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>Map</Text>
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Map</Text>
           </View>
         ),
       }}
@@ -73,10 +73,10 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#e32f45' : '#748c94'
+                tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
-            <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>Chat</Text>
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Chat</Text>
           </View>
         ),
       }}/>
@@ -89,10 +89,10 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#e32f45' : '#748c94'
+                tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
-            <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>Schedule</Text>
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Schedule</Text>
           </View>
         ),
       }}/>
@@ -105,10 +105,10 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#e32f45' : '#748c94'
+                tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
-            <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>Profile</Text>
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Profile</Text>
           </View>
         ),
       }}/>
