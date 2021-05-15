@@ -6,6 +6,7 @@ import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
 import { ChatScreen } from "../pages/ChatScreen";
 import { SearchScreen } from "../pages/SearchScreen";
+import { Animated } from "react-native"
 
 const Stack = createStackNavigator();
 
@@ -44,7 +45,7 @@ export const MainStackNavigator = () => {
       />
       <Stack.Screen
         name="Map"
-        component={MapScreen}
+        component={() => MapScreen(60, -122)}
         options={{ headerStyleInterpolator: forFade }}
       />
       <Stack.Screen
