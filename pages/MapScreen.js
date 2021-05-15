@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Dimensions, StyleSheet, View, StatusBar, Text } from "react-native"
+import React, { useState, useCallback } from 'react';
+import { Dimensions, StyleSheet, View, Button, Text } from "react-native"
 import MapView, { Marker } from 'react-native-maps';
 import { SearchBar } from 'react-native-elements';
 
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 })
 
 const MapScreen = (lat, lon) => {
-  const [search, setSearch] = useState('');
-    
+  const [search, setSearch] = useState("")
+
   return (
     <View>
       <SearchBar
@@ -37,9 +37,8 @@ const MapScreen = (lat, lon) => {
           cancelButtonProps={{
             color: '#fff'
           }}
+          onSubmitEditing={()=>console.log('Search softkey pressed!')}
         />
-      <Text>TEST</Text>
-      <Text>{search}</Text>
       <MapView
         style={styles.map}
         initialRegion={{
