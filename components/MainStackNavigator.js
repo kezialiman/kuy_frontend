@@ -45,7 +45,7 @@ export const MainStackNavigator = () => {
       />
       <Stack.Screen
         name="Map"
-        component={MapScreen}
+        component={() => MapScreen(60, -122)}
         options={{ headerStyleInterpolator: forFade }}
       />
       <Stack.Screen
