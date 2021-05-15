@@ -19,23 +19,27 @@ const styles = StyleSheet.create({
 export const MapScreen = (lat, lon) => {
   const [search, setSearch] = useState("")
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({businesses: []});
+  //const [data, setData] = useState({businesses: []});
   const [error, setError] = useState(null);
   const [triggerEndpoint, setTriggerEndpoint] = useState(false);
+  const [businessName, setBusinessName] = useState([]);
+  const [businessAddress, setBusinessAddress] = useState([]);
 
-  const [stringData, setStringData] = useState([]);
   const YELP_API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
-  //const YELP_API_ENDPOINT = 'https://randomuser.me/api/?seed=1&page=1&results=1'
-  const limit = 2;
+  const limit = 5;
   const apiKey = `uK0JUUSXQwYpuFFWA0kGd2n7OhEncuw052h4mjpNQ366_ZLfY2on8U8ou4GuI_DShZqhG4FBQScaZMUAnVRlo376vwiZ8m1qlTl8FLt_6JhpWtLyN5LaGy6Yht2dYHYx`;
-
-  const getYelpEndpoint = YELP_API_ENDPOINT + `?latitude=` + lat + `&longitude=` + lon + '&term=' + search + '&limit=' + limit;
 
   useEffect(() => {
     console.log('Use Effect API Called')
+    if (!triggerEndpoint) {
+      console.log(businessName);
+      console.log(businessAddress)
+      return
+    }
+    const getYelpEndpoint1 = YELP_API_ENDPOINT + `?latitude=` + lat + `&longitude=` + lon + '&limit=' + limit + '&open_now=true' + '&term=' + search;
     setIsLoading(true);
 
-    fetch(getYelpEndpoint, {
+    fetch(getYelpEndpoint1, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ` + apiKey
@@ -43,38 +47,23 @@ export const MapScreen = (lat, lon) => {
       })
       .then(response => response.json())
       .then(results => {
-        setData(results);
         setIsLoading(false);
+        var businessNameArray = new Array();
+        var businessAddressArray = new Array();
+
+        for(i = 0; i < results.businesses.length; i++) {
+          const business_data = Object(results.businesses[i]);
+          businessNameArray.push(business_data.name);
+          businessAddressArray.push(business_data.location.display_address.join())
+        }
+        setBusinessName(businessNameArray);
+        setBusinessAddress(businessAddressArray);
+        setTriggerEndpoint(false);
       })
       .catch(err => {
         setIsLoading(false);
         setError(err);
       });
-      
-      //const { businesses } = data;
-      //console.log(data.businesses);
-
-      //console.log(data.businesses);
-      const business = JSON.stringify(data.businesses);
-      //console.log(data)
-      //console.log(data.businesses)
-      
-      const business_data = data.businesses[0];
-      const string_business_data = JSON.stringify(business_data);
-      console.log(string_business_data);
-
-      setStringData(business_data);
-
-      console.log(Object(stringData));
-      
-      /*JSON.parse(first, (key, value) => {
-        console.log(key, value);
-      });*/
-      
-      //console.log(typeOf(data.businesses))
-      
-      
-      setTriggerEndpoint(false);
   }, [triggerEndpoint]);
 
   const handleSubmit = () => {
@@ -120,5 +109,3 @@ export const MapScreen = (lat, lon) => {
   </View>
   )
 }
-
-//export const MapScreen;
