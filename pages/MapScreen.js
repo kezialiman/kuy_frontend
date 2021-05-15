@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
 
 const MapScreen = (lat, lon) => {
   const [search, setSearch] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const API_ENDPOINT = 'https://randomuser.me/api/?seed=1&page=1&results=20';
 
   return (
     <View>
