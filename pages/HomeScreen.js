@@ -9,6 +9,22 @@ export function HomeScreen({ navigation }) {
         title="Go to Maps"
         onPress={() => navigation.navigate('Map')}
       />
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+      <Button
+        title="Go to Schedule"
+        onPress={() => navigation.navigate('Schedule')}
+      />
+      <Button
+        title="Go to Chat"
+        onPress={() => navigation.navigate('Chat')}
+      />
+      <Button
+        title="Go to Search"
+        onPress={() => navigation.navigate('Search')}
+      />
     </View>
   );
 }
