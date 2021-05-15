@@ -6,6 +6,7 @@ export const ScheduleScreen = () => {
     <View>
       <ScrollView>
         <View style = {{
+          marginTop: 50,
           alignItems: 'center',
           shadowOpacity: 0.1,
           shadowRadius: 1,
@@ -14,6 +15,9 @@ export const ScheduleScreen = () => {
           </View>
           
           <View style = {{ alignItems: 'center' }}>
+          <Text style = {{ fontSize: 25 , fontWeight: 'bold', marginBottom: 15}}>
+          Upcoming Schedule
+          </Text>
           <View style={styles.container}>
             <View style={styles.itemRight}>
             <Image 
