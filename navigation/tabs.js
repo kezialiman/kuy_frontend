@@ -47,7 +47,7 @@ export const Tabs = () => {
           ...styles.shadow
         }
       }}>
-      <Tab.Screen name="Search" component={() => MapScreen(30, 30)} options={{
+      <Tab.Screen name="Search" component={() => MapScreen(37.786882, -122.399972)} options={{
         tabBarIcon: ({focused}) =>(
           <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
