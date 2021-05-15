@@ -1,7 +1,7 @@
 import React from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-function Map() {
+function MapScreen() {
   return (
     <MapView
        style={{ flex: 1 }}
@@ -15,4 +15,4 @@ function Map() {
     />
   );
 }
-export default Map;
+export default MapScreen;

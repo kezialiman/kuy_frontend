@@ -1,10 +1,13 @@
 import React from 'react';
-import Map from "./components/map";
+import { MainStackNavigator } from "./components/MainStackNavigator"
+import { NavigationContainer } from "@react-navigation/native";
+
 export default class App extends React.Component {
   render() {
     return (
-      <Map/>
+      <NavigationContainer>
+        <MainStackNavigator />
+      </NavigationContainer>
     )
   }
 }
-
