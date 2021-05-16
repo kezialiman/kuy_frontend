@@ -6,6 +6,7 @@ import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
 import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
+import { EditProfileScreen } from "../pages/EditProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -112,6 +113,7 @@ export const Tabs = () => {
           </View>
         ),
       }}/>
+      <Tab.Screen name="EditProfile" component={EditProfileScreen} />
     </Tab.Navigator>
   )
 }

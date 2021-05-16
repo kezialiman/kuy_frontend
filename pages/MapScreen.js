@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-const MapScreen = (lat, lon) => {
+export const MapScreen = (lat, lon) => {
   return (
     <View>
     <MapView
@@ -36,4 +36,4 @@ const MapScreen = (lat, lon) => {
   )
 }
 
-export default MapScreen;
+//export default MapScreen;
