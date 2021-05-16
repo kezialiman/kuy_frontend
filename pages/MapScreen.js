@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Image, Platform } from "react-native"
+import { Dimensions, StyleSheet, View, Text, Button, ScrollView, TouchableOpacity, Animated, Image, Platform } from "react-native"
 import MapView, { Marker } from 'react-native-maps';
 import { SearchBar } from 'react-native-elements';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 	},
   chipsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 110 : 80, 
+    top:Platform.OS === 'ios' ? 80 : 80, 
     paddingHorizontal:10
   },
   chipsIcon: {
@@ -107,7 +107,7 @@ const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
 
-export const MapScreen = (lat, lon) => {
+export function MapScreen ({navigation}){
   const initialMapState = {
     markers,
     categories: [
@@ -140,6 +140,8 @@ export const MapScreen = (lat, lon) => {
     },
   };
 
+  const lat = 37;
+  const lon = -122;
   const [state, setState] = React.useState(initialMapState);
   const [search, setSearch] = useState("")
   const [isLoading, setIsLoading] = useState(false);
@@ -197,6 +199,26 @@ export const MapScreen = (lat, lon) => {
 
   return (
     <View>
+      <Button
+        title="Go to Maps"
+        onPress={() => navigation.navigate('Map')}
+      />
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+      <Button
+        title="Go to Schedule"
+        onPress={() => navigation.navigate('Schedule')}
+      />
+      <Button
+        title="Go to Chat"
+        onPress={() => navigation.navigate('Chat')}
+      />
+      <Button
+        title="Go to Search"
+        onPress={() => navigation.navigate('Search')}/>
+
       <SearchBar
           placeholder="Type Here..."
           onChangeText={(value) => setSearch(value)}
@@ -206,7 +228,7 @@ export const MapScreen = (lat, lon) => {
             backgroundColor: 'transparent',
             borderTopWidth: 0,
             borderBottomWidth: 0,
-            marginTop: 35
+            //marginTop: 35
           }}
           inputContainerStyle={{
             backgroundColor: '#fff'
