@@ -6,6 +6,7 @@ import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
 import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
+import { EditProfileScreen } from "../pages/EditProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ export const Tabs = () => {
       }}>
       <Tab.Screen name="Search" component={() => MapScreen(37.786882, -122.399972)} options={{
         tabBarIcon: ({focused}) =>(
-          <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
               source={require('../assets/icons/location-pin.png')}
               resizeMode='contain'
@@ -66,7 +67,7 @@ export const Tabs = () => {
       />
       <Tab.Screen name="Chat" component={ChatScreen} options={{
         tabBarIcon: ({focused}) =>(
-          <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
               source={require('../assets/icons/messenger.png')}
               resizeMode='contain'
@@ -82,7 +83,7 @@ export const Tabs = () => {
       }}/>
       <Tab.Screen name="Schedule" component={ScheduleScreen} options={{
         tabBarIcon: ({focused}) =>(
-          <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
               source={require('../assets/icons/calendar.png')}
               resizeMode='contain'
@@ -98,7 +99,7 @@ export const Tabs = () => {
       }}/>
       <Tab.Screen name="Profile" component={ProfileScreen} options={{
         tabBarIcon: ({focused}) =>(
-          <View styel={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
               source={require('../assets/icons/user.png')}
               resizeMode='contain'
@@ -112,6 +113,7 @@ export const Tabs = () => {
           </View>
         ),
       }}/>
+      <Tab.Screen name="EditProfile" component={EditProfileScreen} />
     </Tab.Navigator>
   )
 }
