@@ -8,12 +8,21 @@ const HEROKU_URL = "http://kuy-hangout.herokuapp.com/";
 export const VenueScreen = ({route, navigation}) => {
   // Fetch data for events
   const [eventData, setEventData] = useState([]);
+  const [onJoin, setOnJoin] = useState(false);
   const isFocused = useIsFocused();
   const { data } = route.params;
-
   const [cookies] = useCookies(["access_token"]);
+  const [userId, setUserId] = useState([]);
   const currCookie = cookies;
   console.log('Cookie on profile', currCookie)
+
+  useEffect(() => {
+    console.log("Fetching data from heroku")
+    fetch(HEROKU_URL +'/users?access_token=' + currCookie.access_token)
+      .then((response) => response.json())
+      .then((results) => setUserId(results))
+      .catch((error) => console.error(error))
+  }, []);
 
   useEffect(() => {
     fetch(HEROKU_URL + `events?place_id=${data.id}`, {
@@ -24,6 +33,7 @@ export const VenueScreen = ({route, navigation}) => {
     })
     .then(resp => resp.json())
     .then(resp => {
+      console.log(resp);
       var eventArray = new Array();
       const getEventData = Object(resp.data)
       for (i = 0; i < resp.data.length; i++) {
@@ -40,12 +50,40 @@ export const VenueScreen = ({route, navigation}) => {
             getEventData[i].end_time.split("T")[1].split(":").slice(0, 2).join(":")
           ],
           "party_size": getEventData[i].party_size,
+          "id": getEventData[i].id,
         });
       }
       setEventData(eventArray);
     })
     .catch( error => console.log(error))
   }, [isFocused]);
+
+  function handleJoinEvent(id){
+    try {
+      console.log("Join Event...")
+
+      console.log(userId.id)
+      
+      fetch(HEROKU_URL + "events/" + id, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          user_id: userId.id,
+        }),
+        headers:{
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+      })
+      .then(response => response.json())
+      .then(() => {
+        console.log("JOINN")
+        alert("Booking has been made!")
+      })
+    }
+    catch (e) {
+      console.log(e)
+    }
+    alert('Changes saved');
+  }
 
   const venue = data.name;
   const location = data.address;
@@ -111,7 +149,7 @@ export const VenueScreen = ({route, navigation}) => {
               </Text>
               <View style={styles.button}>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => {handleJoinEvent(marker.id)}}
                 style={[styles.signIn, {
                   borderColor: '#FF6347',
                   borderWidth: 1

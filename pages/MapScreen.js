@@ -83,8 +83,6 @@ export function MapScreen({navigation}) {
 
         for(i = 0; i < results.businesses.length; i++) {
           const business_data = Object(results.businesses[i]);
-
-          console.log(business_data)
           businessArray.push({
             "name": business_data.name,
             "address": business_data.location.display_address.join(),
