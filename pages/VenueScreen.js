@@ -8,7 +8,6 @@ const HEROKU_URL = "http://kuy-hangout.herokuapp.com/";
 export const VenueScreen = ({route, navigation}) => {
   // Fetch data for events
   const [eventData, setEventData] = useState([]);
-  const [onJoin, setOnJoin] = useState(false);
   const isFocused = useIsFocused();
   const { data } = route.params;
   const [cookies] = useCookies(["access_token"]);
@@ -75,8 +74,7 @@ export const VenueScreen = ({route, navigation}) => {
       })
       .then(response => response.json())
       .then(() => {
-        console.log("JOINN")
-        alert("Booking has been made!")
+        navigation.navigate('Chat')
       })
     }
     catch (e) {
