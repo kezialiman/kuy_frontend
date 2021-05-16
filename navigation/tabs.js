@@ -39,7 +39,7 @@ export const Tabs = () => {
                 tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
-            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Login</Text>
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Logout</Text>
           </View>
         ),
         tabBarVisible: false,

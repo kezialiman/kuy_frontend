@@ -11,25 +11,27 @@ import Cookies from 'universal-cookie';
 
  
 export const InitialProfileScreen = ({ route, navigation }) => {
+    
     const { user } = route.params;
 
 
     const [cookies, setCookie] = useCookies(["access_token"]);
-  
-    // function delCookie(){
-    //   cookies.set('access_token', {expires: Date.now()});
-    // }
-
-    //onst cookies = new Cookies();
-    //ookies.set('access_token', user.id, { path: '/' });
-    
-    //console.log(cookies.get('access_token'))
 
     console.log("user from google", user);
+
+    const currCookie = cookies;
+    console.log('here hereh herehre')
+    console.log(currCookie)
+    if (currCookie.access_token != null) {
+      console.log("logout")
+    }
 
     setCookie("access_token", user.id, {
     path:'/'
     });
+
+    //const [cookies] = useCookies(["access_token"]);
+    
    
     console.log("Initial profile cookie",cookies);
     
@@ -95,7 +97,6 @@ export const InitialProfileScreen = ({ route, navigation }) => {
    
 const logout = async () => {
     try {
-         delCookie;
           navigation.navigate("Login");
         }
        catch (error) {
@@ -187,7 +188,7 @@ const logout = async () => {
 
       </View>
       <View style={styles.container2}>
-      <Button title="Cancel" onPress={logout} color="white"/>
+      <Button title="Logout" onPress={logout} color="white"/>
       </View>
     </View>
   );
