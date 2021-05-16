@@ -15,7 +15,7 @@ export const ScheduleScreen = () => {
           </View>
           
           <View style = {{ alignItems: 'center' }}>
-          <Text style = {{ fontSize: 25 , fontWeight: 'bold', marginBottom: 15}}>
+          <Text style = {{ fontSize: 25 , fontWeight: 'bold', marginBottom: 15, marginTop: 5}}>
           Upcoming Schedule
           </Text>
           <View style={styles.container}>

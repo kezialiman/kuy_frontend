@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { View, ScrollView, TouchableOpacity, Text, Button, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { Rating } from 'react-native-ratings';
+import PullToRefresh from 'react-simple-pull-to-refresh';
+import { useIsFocused } from "@react-navigation/native";
+
 
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
 
 export const ProfileScreen = ({ navigation }) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const isFocused = useIsFocused();
 
-  console.log(data)
-
-  // "/review?user_id="
   useEffect(() => {
     console.log("Fetching data from heroku")
     setLoading(true)
@@ -19,10 +20,9 @@ export const ProfileScreen = ({ navigation }) => {
       .then((results) => setData(results))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [isFocused]);
 
   if (isLoading) {
-    console.log("Still loading")
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#5500dc" />
@@ -30,14 +30,13 @@ export const ProfileScreen = ({ navigation }) => {
     );
   }
   return (
-    <View style={{
-      backgroundColor: 'white'}}>
+    <View>
       <ScrollView>
         <View style={{
           padding: 10,
           width: '100%',
           backgroundColor: '#2898FA',
-          height: 150,
+          height: 150
         }}>
         </View>
         <View style = {{
@@ -49,19 +48,20 @@ export const ProfileScreen = ({ navigation }) => {
           <TouchableOpacity>
           <Image 
               source = {{uri: data.avatar}}
-              style = {{ width: 175, 
-              height: 175, 
+              style = {{ width: 150, 
+              height: 150, 
               borderRadius: 150,
               borderWidth: 5,
               borderColor: 'white',
-              marginTop: -75
+              marginTop: -75,
+              marginBottom: 1
             }}/>
             </TouchableOpacity>
           </View>
           <Button
             title="Edit Profile"
             onPress={() => navigation.navigate('EditProfile', {
-              userID: data.id
+              userData: data
             })}
           />
           
@@ -70,21 +70,12 @@ export const ProfileScreen = ({ navigation }) => {
            {data.name}
           </Text>
 
-          {/*<Rating
-            type='star'
-            ratingCount={ Math.round(data.rating)}
-            imageSize={30}
-            style = {{ padding: 10 }}
-            readonly
-            startingValue = {5}>
-          */}
-
           <Text style = {{ fontSize: 15 }}>
             {data.gender}
           </Text>
 
           <Text style = {{ fontSize: 15, marginTop: 20 }}>
-            Fun Facts:
+            Fun Fact:
           </Text>
 
           <View style={styles.container}>
@@ -104,6 +95,7 @@ export const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
+    marginBottom: 15,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -113,8 +105,8 @@ const styles = StyleSheet.create({
     width: 300,
     borderRadius: 15,
     shadowOpacity: 0.1,
-          shadowRadius: 1,
-          shadowColor: 'black',
-          shadowOffset: { height: 2, width: 3}
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 2, width: 3}
   }
 });
