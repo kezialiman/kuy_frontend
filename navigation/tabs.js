@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
-import { ProfileNavigator, ChatNavigator, MapNavigator } from "../components/MainStackNavigator";
+import { ProfileNavigator, ChatNavigator, MapNavigator, LoginNavigator } from "../components/MainStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +25,25 @@ export const Tabs = () => {
             ...styles.shadow
           }
         }}>
+        <Tab.Screen name="Login" component={LoginNavigator} options={{
+        tabBarIcon: ({focused}) =>(
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+            <Image
+              source={require('../assets/icons/logout.png')}
+              resizeMode='contain'
+              style={{
+                width: 25,
+                height: 25,
+                marginTop: 10,
+                marginBottom: 5,
+                tintColor: focused ? '#2898FA' : '#748c94'
+              }}
+            />
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Login</Text>
+          </View>
+        ),
+      }}
+      />
         <Tab.Screen name="Search" component={MapNavigator} options={{
         tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>

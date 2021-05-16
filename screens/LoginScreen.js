@@ -8,7 +8,7 @@ import { StyleSheet,
 import * as Google from "expo-google-app-auth";
 
 
-const LoginScreen = ({ navigation }) => {
+export const LoginScreen = ({ navigation }) => {
 //where to fetch API data
 
 
@@ -23,7 +23,7 @@ const LoginScreen = ({ navigation }) => {
       if (type === "success") {
     
         console.log("LoginScreen.js 17 | success, navigating to profile");
-        navigation.navigate("Profile", { user });
+        navigation.navigate("InitialProfile", { user });
       }
     } catch (error) {
       console.log("LoginScreen.js 19 | error with login", error);

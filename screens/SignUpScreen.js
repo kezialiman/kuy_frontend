@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const SignUpScreen = ({route, navigation}) => {
+export const SignUpScreen = ({route, navigation}) => {
   const [triggerEndpoint, setTriggerEndpoint] = useState(false);
   const [selectedGender, setSelectedGender] = useState('male');
   //const [user, setUser] = useState();

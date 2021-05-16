@@ -11,6 +11,9 @@ import { EditProfileScreen } from "../pages/EditProfileScreen";
 import { Animated } from "react-native"
 import { BookNowScreen } from '../pages/BookNowScreen';
 import { AnimatedScrollView } from '../components/AnimatedScrollView';
+import { LoginScreen } from "../screens/LoginScreen";
+import { InitialProfileScreen } from "../screens/InitialProfileScreen";
+import { SignUpScreen }from "../screens/SignUpScreen";
 
 const Stack = createStackNavigator();
 
@@ -71,6 +74,18 @@ export function MapNavigator() {
         component={BookNowScreen}
         options={{ headerStyleInterpolator: forFade }}
     />
+          <Stack.Screen name="InitialProfileScreen" component={InitialProfileScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+    </Stack.Navigator>
+  )
+}
+
+export function LoginNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="InitialProfile" component={InitialProfileScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   )
 }
