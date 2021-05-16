@@ -28,7 +28,24 @@ const forFade = ({ current, next }) => {
   };
 };
 
-export const MainStackNavigator = () => {
+export function ProfileNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+export function MainStackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -49,11 +66,7 @@ export const MainStackNavigator = () => {
         component={SearchScreen}
         options={{ headerStyleInterpolator: forFade }}
       />
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ headerStyleInterpolator: forFade }}
-      />
+
       <Stack.Screen
         name="Schedule"
         component={ScheduleScreen}
@@ -62,11 +75,6 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        options={{ headerStyleInterpolator: forFade }}
-      />
-      <Stack.Screen
-        name="EditProfile"
-        component={EditProfileScreen}
         options={{ headerStyleInterpolator: forFade }}
       />
     </Stack.Navigator>)

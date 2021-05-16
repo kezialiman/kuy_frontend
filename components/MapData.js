@@ -1,6 +1,35 @@
+import React from 'react';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet } from "react-native"
+
 const Images = [
     { image: require("../assets/food-banner1.jpg")}
 ];
+
+/*export const categories = [
+  { 
+    name: 'Fastfood Center', 
+    icon: <MaterialCommunityIcons style={styles.chipsIcon} name="food-fork-drink" size={18} />,
+  },
+  {
+    name: 'Restaurant',
+    icon: <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />,
+  },
+  {
+    name: 'Dineouts',
+    icon: <Ionicons name="md-restaurant" style={styles.chipsIcon} size={18} />,
+  },
+  {
+    name: 'Snacks Corner',
+    icon: <MaterialCommunityIcons name="food" style={styles.chipsIcon} size={18} />,
+  },
+  {
+    name: 'Hotel',
+    icon: <Fontisto name="hotel" style={styles.chipsIcon} size={15} />,
+  },
+];*/
 
 export const markers = [
     {
@@ -59,3 +88,9 @@ export const markers = [
       reviews: 178,
     },
 ];
+
+const styles = StyleSheet.create({
+  chipsIcon: {
+    marginRight: 5,
+  },
+})

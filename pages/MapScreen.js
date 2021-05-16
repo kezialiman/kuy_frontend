@@ -8,6 +8,166 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { markers } from '../components/MapData';
 import { AnimatedScrollView } from '../components/AnimatedScrollView';
 
+const { width } = Dimensions.get("window");
+const CARD_HEIGHT = 220;
+const CARD_WIDTH = width * 0.8;
+
+export function MapScreen() {
+  const initialMapState = {
+    markers,
+    categories: [
+      { 
+        name: 'Fastfood Center', 
+        icon: <MaterialCommunityIcons style={styles.chipsIcon} name="food-fork-drink" size={18} />,
+      },
+      {
+        name: 'Restaurant',
+        icon: <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />,
+      },
+      {
+        name: 'Dineouts',
+        icon: <Ionicons name="md-restaurant" style={styles.chipsIcon} size={18} />,
+      },
+      {
+        name: 'Snacks Corner',
+        icon: <MaterialCommunityIcons name="food" style={styles.chipsIcon} size={18} />,
+      },
+      {
+        name: 'Hotel',
+        icon: <Fontisto name="hotel" style={styles.chipsIcon} size={15} />,
+      },
+  ],
+    region: {
+      latitude: 22.62938671242907,
+      longitude: 88.4354486029795,
+      latitudeDelta: 0.04864195044303443,
+      longitudeDelta: 0.040142817690068,
+    },
+  };
+
+  const lat = 37;
+  const lon = -122;
+  const [state, setState] = React.useState(initialMapState);
+  const [search, setSearch] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [triggerEndpoint, setTriggerEndpoint] = useState(false);
+  const [business, setBusiness] = useState([]);
+
+  const YELP_API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
+  const limit = 5;
+  const apiKey = `uK0JUUSXQwYpuFFWA0kGd2n7OhEncuw052h4mjpNQ366_ZLfY2on8U8ou4GuI_DShZqhG4FBQScaZMUAnVRlo376vwiZ8m1qlTl8FLt_6JhpWtLyN5LaGy6Yht2dYHYx`;
+
+  useEffect(() => {
+    console.log('Use Effect API Called')
+    if (!triggerEndpoint) {
+      console.log(business);
+      return
+    }
+    const getYelpEndpoint = YELP_API_ENDPOINT + `?latitude=` + lat + `&longitude=` + lon + '&limit=' + limit + '&open_now=true' + '&term=' + search;
+    setIsLoading(true);
+
+    fetch(getYelpEndpoint, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ` + apiKey
+      },
+      })
+      .then(response => response.json())
+      .then(results => {
+        setIsLoading(false);
+        var businessArray = new Array();
+
+        for(i = 0; i < results.businesses.length; i++) {
+          const business_data = Object(results.businesses[i]);
+          businessArray.push({
+            "name": business_data.name,
+            "address": business_data.location.display_address.join(),
+            "latitude" : business_data.coordinates.latitude,
+            "longitude" : business_data.coordinates.longitude
+          })
+        }
+        setBusiness(businessArray);
+        setTriggerEndpoint(false);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        setError(err);
+      });
+  }, [triggerEndpoint]);
+
+  const handleSubmit = () => {
+    console.log('Search softkey pressed!')
+    setTriggerEndpoint(true);
+  }
+
+  return (
+    <View>
+      <SearchBar
+          placeholder="Type Here..."
+          onChangeText={(value) => setSearch(value)}
+          value={search}
+          round
+          containerStyle={{
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
+            borderBottomWidth: 0,
+            marginTop: 35
+          }}
+          inputContainerStyle={{
+            backgroundColor: '#fff'
+          }}
+          cancelButtonProps={{
+            color: '#fff'
+          }}
+          onSubmitEditing={handleSubmit}
+        />
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: lat,
+          longitude: lon,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+         }}
+        provider="google"
+      >
+      {business.map((marker, index) => {
+          return (
+            <Marker key={index} coordinate={{ latitude: marker.latitude, longitude: marker.longitude}}/>
+          );
+        })}
+      </MapView>
+      <ScrollView
+        horizontal
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        height={50}
+        style={styles.chipsScrollView}
+        contentInset={{ // iOS only
+          top:0,
+          left:0,
+          bottom:0,
+          right:20
+        }}
+        contentContainerStyle={{
+          paddingRight: Platform.OS === 'android' ? 20 : 0
+        }}
+      >
+        {state.categories.map((category, index) => (
+          <TouchableOpacity key={index} style={styles.chipsItem}>
+            {category.icon}
+            <Text>{category.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <View>
+        {AnimatedScrollView(business)}
+      </View>
+  </View>
+  )
+}
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -21,7 +181,7 @@ const styles = StyleSheet.create({
 	},
   chipsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 80 : 80, 
+    top:Platform.OS === 'ios' ? 110 : 80, 
     paddingHorizontal:10
   },
   chipsIcon: {
@@ -102,186 +262,3 @@ const styles = StyleSheet.create({
     borderRadius: 3
   },
 })
-
-const { width } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
-
-export function MapScreen ({navigation}){
-  const initialMapState = {
-    markers,
-    categories: [
-      { 
-        name: 'Fastfood Center', 
-        icon: <MaterialCommunityIcons style={styles.chipsIcon} name="food-fork-drink" size={18} />,
-      },
-      {
-        name: 'Restaurant',
-        icon: <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />,
-      },
-      {
-        name: 'Dineouts',
-        icon: <Ionicons name="md-restaurant" style={styles.chipsIcon} size={18} />,
-      },
-      {
-        name: 'Snacks Corner',
-        icon: <MaterialCommunityIcons name="food" style={styles.chipsIcon} size={18} />,
-      },
-      {
-        name: 'Hotel',
-        icon: <Fontisto name="hotel" style={styles.chipsIcon} size={15} />,
-      },
-  ],
-    region: {
-      latitude: 22.62938671242907,
-      longitude: 88.4354486029795,
-      latitudeDelta: 0.04864195044303443,
-      longitudeDelta: 0.040142817690068,
-    },
-  };
-
-  const lat = 37;
-  const lon = -122;
-  const [state, setState] = React.useState(initialMapState);
-  const [search, setSearch] = useState("")
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [triggerEndpoint, setTriggerEndpoint] = useState(false);
-  const [business, setBusiness] = useState([]);
-
-  const YELP_API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
-  const limit = 5;
-  const apiKey = `uK0JUUSXQwYpuFFWA0kGd2n7OhEncuw052h4mjpNQ366_ZLfY2on8U8ou4GuI_DShZqhG4FBQScaZMUAnVRlo376vwiZ8m1qlTl8FLt_6JhpWtLyN5LaGy6Yht2dYHYx`;
-
-  useEffect(() => {
-    console.log('Use Effect API Called')
-    if (!triggerEndpoint) {
-      console.log(business);
-      return
-    }
-    const getYelpEndpoint1 = YELP_API_ENDPOINT + `?latitude=` + lat + `&longitude=` + lon + '&limit=' + limit + '&open_now=true' + '&term=' + search;
-    //const getYelpEndpoint1 = YELP_API_ENDPOINT + `?location=` + search + '&limit=' + limit + '&open_now=true' + '&term=' + search;
-    setIsLoading(true);
-
-    fetch(getYelpEndpoint1, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ` + apiKey
-      },
-      })
-      .then(response => response.json())
-      .then(results => {
-        setIsLoading(false);
-        var businessArray = new Array();
-
-        for(i = 0; i < results.businesses.length; i++) {
-          const business_data = Object(results.businesses[i]);
-          businessArray.push({
-            "name": business_data.name,
-            "address": business_data.location.display_address.join(),
-            "latitude" : business_data.coordinates.latitude,
-            "longitude" : business_data.coordinates.longitude
-          })
-        }
-        setBusiness(businessArray);
-        setTriggerEndpoint(false);
-      })
-      .catch(err => {
-        setIsLoading(false);
-        setError(err);
-      });
-  }, [triggerEndpoint]);
-
-  const handleSubmit = () => {
-    console.log('Search softkey pressed!')
-    setTriggerEndpoint(true);
-  }
-
-  return (
-    <View>
-      <Button
-        title="Go to Maps"
-        onPress={() => navigation.navigate('Map')}
-      />
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
-      <Button
-        title="Go to Schedule"
-        onPress={() => navigation.navigate('Schedule')}
-      />
-      <Button
-        title="Go to Chat"
-        onPress={() => navigation.navigate('Chat')}
-      />
-      <Button
-        title="Go to Search"
-        onPress={() => navigation.navigate('Search')}/>
-
-      <SearchBar
-          placeholder="Type Here..."
-          onChangeText={(value) => setSearch(value)}
-          value={search}
-          round
-          containerStyle={{
-            backgroundColor: 'transparent',
-            borderTopWidth: 0,
-            borderBottomWidth: 0,
-            //marginTop: 35
-          }}
-          inputContainerStyle={{
-            backgroundColor: '#fff'
-          }}
-          cancelButtonProps={{
-            color: '#fff'
-          }}
-          onSubmitEditing={handleSubmit}
-        />
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: lat,
-          longitude: lon,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-         }}
-        provider="google"
-      >
-      {business.map((marker, index) => {
-          return (
-            <Marker key={index} coordinate={{ latitude: marker.latitude, longitude: marker.longitude}}/>
-          );
-        })}
-      </MapView>
-      <ScrollView
-        horizontal
-        scrollEventThrottle={1}
-        showsHorizontalScrollIndicator={false}
-        height={50}
-        style={styles.chipsScrollView}
-        contentInset={{ // iOS only
-          top:0,
-          left:0,
-          bottom:0,
-          right:20
-        }}
-        contentContainerStyle={{
-          paddingRight: Platform.OS === 'android' ? 20 : 0
-        }}
-      >
-        {state.categories.map((category, index) => (
-          <TouchableOpacity key={index} style={styles.chipsItem}>
-            {category.icon}
-            <Text>{category.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-      {/*<AnimatedScrollView />*/}
-      <View>
-        {AnimatedScrollView(business)}
-      </View>
-  </View>
-  )
-}
-

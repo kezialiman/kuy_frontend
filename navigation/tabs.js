@@ -1,54 +1,31 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SearchBar } from "../pages/SearchScreen";
 import { MapScreen } from "../pages/MapScreen"; 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
-import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
-import { EditProfileScreen } from "../pages/EditProfileScreen";
+import { ProfileNavigator } from "../components/MainStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
-// const CustomTabBarButton = ({children, onPress}) => (
-//   <TouchableOpacity
-//     style={{
-//       top: -30,
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//       ...styles.shadow
-//     }}
-//     onPress={onPress}
-//     >
-//       <View style={{
-//         width: 70,
-//         height: 70,
-//         borderRadius: 35,
-//         backgroundColor: '#e32f45',
-//       }}>
-//         {children}
-//       </View>
-//     </TouchableOpacity>
-// )
-
 export const Tabs = () => {
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        showLabel: false,
-        style: {
-          position: 'absolute',
-          bottom: 25,
-          left: 20,
-          right: 20,
-          elevation: 0,
-          backgroundColor: "#ffffff",
-          borderRadius: 15,
-          height: 90,
-          ...styles.shadow
-        }
-      }}>
-      <Tab.Screen name="Search" component={() => MapScreen(37.786882, -122.399972)} options={{
+      <Tab.Navigator
+        tabBarOptions={{
+          showLabel: false,
+          style: {
+            position: 'absolute',
+            bottom: 25,
+            left: 20,
+            right: 20,
+            elevation: 0,
+            backgroundColor: "#ffffff",
+            borderRadius: 15,
+            height: 90,
+            ...styles.shadow
+          }
+        }}>
+        <Tab.Screen name="Search" component={MapScreen} options={{
         tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
@@ -97,7 +74,7 @@ export const Tabs = () => {
           </View>
         ),
       }}/>
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{
+      <Tab.Screen name="Profile" component={ProfileNavigator} options={{
         tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image
@@ -113,9 +90,9 @@ export const Tabs = () => {
           </View>
         ),
       }}/>
-      <Tab.Screen name="EditProfile" component={EditProfileScreen} />
-    </Tab.Navigator>
-  )
+      </Tab.Navigator>
+    
+  );
 }
 
 const styles = StyleSheet.create({
