@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import MapScreen from '../pages/MapScreen';
+import { MapScreen } from '../pages/MapScreen';
 import { HomeScreen } from "../pages/HomeScreen";
 import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
@@ -32,7 +32,12 @@ export const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="HomeScreen"
+        name="Map"
+        component={MapScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+      <Stack.Screen
+        name="Home"
         component={HomeScreen}
         options={{
           headerTintColor: 'white',
@@ -42,11 +47,6 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="Search"
         component={SearchScreen}
-        options={{ headerStyleInterpolator: forFade }}
-      />
-      <Stack.Screen
-        name="Map"
-        component={() => MapScreen(60, -122)}
         options={{ headerStyleInterpolator: forFade }}
       />
       <Stack.Screen

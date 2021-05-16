@@ -14,7 +14,7 @@ export const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("Fetching data from heroku")
     setLoading(true)
-    fetch(HEROKU_URL +'/users?access_token=1234')
+    fetch(HEROKU_URL +'/users?access_token=12345689')
       .then((response) => response.json())
       .then((results) => setData(results))
       .catch((error) => console.error(error))
@@ -70,14 +70,14 @@ export const ProfileScreen = ({ navigation }) => {
            {data.name}
           </Text>
 
-          <Rating
+          {/*<Rating
             type='star'
             ratingCount={ Math.round(data.rating)}
             imageSize={30}
             style = {{ padding: 10 }}
             readonly
-            startingValue = {5}
-            />
+            startingValue = {5}>
+          */}
 
           <Text style = {{ fontSize: 15 }}>
             {data.gender}
