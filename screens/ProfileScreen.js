@@ -148,14 +148,15 @@ const logout = async () => {
     setTriggerEndpoint(false)
   }
 
+  let contAs = "Continue as " + user.name.split(" ")[0];
+
   return (
     <View style={styles.container}>
-      <Text>Profile Screen</Text>
-
-      <Text  style={styles.header}>Welcome {user.name} !</Text>
+      <Text  style={styles.header}>Welcome, {user.name} !</Text>
       <Image style={styles.image} source={{ uri: user.photoUrl }} />
       <View style={styles.container2}>
-        <Button title= "Continue as"
+        <Button title= {contAs}
+          color='white'
             onPress={     
                        //alert('yes')
                     onClickUser
@@ -178,10 +179,10 @@ const logout = async () => {
             }
             >
         </Button>
-        <Text style = {styles.name}> {user.name} </Text>
+
       </View>
       <View style={styles.container2}>
-      <Button title="Cancel" onPress={logout} />
+      <Button title="Cancel" onPress={logout} color="white"/>
       </View>
     </View>
   );
@@ -210,7 +211,7 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#2898FA",
+        backgroundColor: "#FFFFFF",
         alignItems: "center",
         justifyContent: "center"
       },
@@ -221,20 +222,20 @@ const styles = StyleSheet.create({
     },
     container2: {
         margin: '5%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 15,
+        backgroundColor: '#2898fa',
+        borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
       header: {
-        fontSize: 25
+        fontSize: 25,
+        fontWeight: 'bold'
       },
       image: {
         marginTop: 15,
         width: 150,
         height: 150,
-        borderColor: "rgba(0,0,0,0.2)",
+        borderColor: "white",
         borderWidth: 3,
         borderRadius: 150
       }

@@ -176,11 +176,11 @@ const changeFun = (val) => {
     <View style={styles.header}>
  
       
-      <Text style={styles.text_footer}> Gender </Text>
+      <Text style={styles.text_footer}> Select Gender </Text>
       <View style={styles.action}>
         <Picker
           selectedValue={selectedGender}
-          style={{ height: '60%', width: 150, color: '#FFFF'}}
+          style={{marginTop: -30, width: 150, color: '#FFFF'}}
           onValueChange={(itemValue) => changeGender(itemValue)}
         >
           <Picker.Item label="male" value="male" />
@@ -190,10 +190,10 @@ const changeFun = (val) => {
       </View>
 
      
-      <Text style={styles.text_footer}> Fun Fact </Text>
+      <Text style={styles.text_footer}> Enter Fun Fact </Text>
       <View style={styles.action}>
         <TextInput
-          placeholder = "Enter your Fun Fact"
+          placeholder = "Enter fun fact here"
           style={styles.textInput}
           autoCapitalize='none'
           onChangeText={(val) => changeFun(val)}
@@ -206,14 +206,14 @@ const changeFun = (val) => {
     </View>
     <View style={styles.container3}>
     
-    <Button title="Sign Up Now" onPress={postData}>
+    <Button title="Sign Up Now" onPress={postData} color='white'>
 
     </Button>
     </View>
   
     <View style={styles.container2}>
     
-    <Button title="Cancel" onPress={logout}>
+    <Button title="Cancel" onPress={logout} color='white'>
 
     </Button>
     </View>
@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    backgroundColor: "#2898FA",
     alignItems: "center",
     justifyContent: "center",
     fontSize: 25,
@@ -243,18 +242,11 @@ const styles = StyleSheet.create({
     bottom: '12%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
-
-    backgroundColor: '#2898FA',
-    shadowOpacity: 0.4,
-        shadowRadius: 1,
-        shadowColor: 'black',
-        shadowOffset: { height: 2, width: 0},
-        borderColor: 'black',
+    borderRadius: 10,
   },
   container3: {
-    backgroundColor: 'white',
-    borderRadius: 18,
+    backgroundColor: '#2898fa',
+    borderRadius: 5,
     position: 'absolute',
     width: '75%',
     height: '5%',
@@ -272,8 +264,8 @@ const styles = StyleSheet.create({
 },
 
 container2: {
-  backgroundColor: 'white',
-  borderRadius: 18,
+  backgroundColor: '#2898fa',
+  borderRadius: 5,
   position: 'absolute',
   width: '75%',
   height: '5%',
@@ -297,6 +289,7 @@ text_footer: {
 },
 textInput: {
   flex: 1,
+  marginLeft: 25,
   marginTop: '5%',
   width: 20,
   paddingLeft: 10,
@@ -304,7 +297,6 @@ textInput: {
 },
 action: {
   flexDirection: 'row',
-  marginTop: 10,
   borderBottomWidth: 1,
   borderBottomColor: '#f2f2f2',
   paddingBottom: 5

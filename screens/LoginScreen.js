@@ -39,8 +39,7 @@ const LoginScreen = ({ navigation }) => {
           Discover new friends at new places
               </Text>
             <Text style={styles.search}>
-            Search millions of jobs and get the inside scoop on companies.
-            Wait for what? Let’s get start it!
+            Search for friends and restaurants around you. What are you waiting for? Let’s start matching!
             </Text>
           </SafeAreaView>
           <SafeAreaView style={styles.footer}>
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
         height: 60,
         left: 41,
         top: 460,
-        fontFamily: 'Source Sans Pro',
         fontSize: 16,
         lineHeight: 20,
 
@@ -83,7 +81,6 @@ const styles = StyleSheet.create({
         height: 150,
         left: 40,
         top: 300,
-  
         fontSize: 40,
         lineHeight: 50,
         color: '#FFFFFF',
@@ -116,15 +113,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     backgroundColor: '#2898FA',
     shadowOpacity: 0.4,
-        shadowRadius: 1,
-        shadowColor: 'black',
-        shadowOffset: { height: 2, width: 0},
-        borderColor: 'black',
-  },
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 2, width: 0},
+    borderColor: 'black',
+    marginTop: -50
+},
   footer: {
       flex: 0.5,
-
-      backgroundColor: '#fff',
       //paddingVertical: 50,
       //paddingHorizontal: 30
   },
