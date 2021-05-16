@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { markers } from '../components/MapData';
+import { AnimatedScrollView } from '../components/AnimatedScrollView';
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingVertical: 10,
-    marginBottom: 500,
+    marginBottom: 230,
   },
   endPadding: {
     paddingRight: width - CARD_WIDTH,
@@ -102,10 +103,9 @@ const styles = StyleSheet.create({
   },
 })
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
-const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 export const MapScreen = (lat, lon) => {
   const initialMapState = {
@@ -141,17 +141,11 @@ export const MapScreen = (lat, lon) => {
   };
 
   const [state, setState] = React.useState(initialMapState);
-
-  let mapAnimation = new Animated.Value(0);
-  const _scrollView = React.useRef(null);
-
   const [search, setSearch] = useState("")
   const [isLoading, setIsLoading] = useState(false);
-  //const [data, setData] = useState({businesses: []});
   const [error, setError] = useState(null);
   const [triggerEndpoint, setTriggerEndpoint] = useState(false);
-  const [businessName, setBusinessName] = useState([]);
-  const [businessAddress, setBusinessAddress] = useState([]);
+  const [business, setBusiness] = useState([]);
 
   const YELP_API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
   const limit = 5;
@@ -160,11 +154,11 @@ export const MapScreen = (lat, lon) => {
   useEffect(() => {
     console.log('Use Effect API Called')
     if (!triggerEndpoint) {
-      console.log(businessName);
-      console.log(businessAddress)
+      console.log(business);
       return
     }
     const getYelpEndpoint1 = YELP_API_ENDPOINT + `?latitude=` + lat + `&longitude=` + lon + '&limit=' + limit + '&open_now=true' + '&term=' + search;
+    //const getYelpEndpoint1 = YELP_API_ENDPOINT + `?location=` + search + '&limit=' + limit + '&open_now=true' + '&term=' + search;
     setIsLoading(true);
 
     fetch(getYelpEndpoint1, {
@@ -176,16 +170,18 @@ export const MapScreen = (lat, lon) => {
       .then(response => response.json())
       .then(results => {
         setIsLoading(false);
-        var businessNameArray = new Array();
-        var businessAddressArray = new Array();
+        var businessArray = new Array();
 
         for(i = 0; i < results.businesses.length; i++) {
           const business_data = Object(results.businesses[i]);
-          businessNameArray.push(business_data.name);
-          businessAddressArray.push(business_data.location.display_address.join())
+          businessArray.push({
+            "name": business_data.name,
+            "address": business_data.location.display_address.join(),
+            "latitude" : business_data.coordinates.latitude,
+            "longitude" : business_data.coordinates.longitude
+          })
         }
-        setBusinessName(businessNameArray);
-        setBusinessAddress(businessAddressArray);
+        setBusiness(businessArray);
         setTriggerEndpoint(false);
       })
       .catch(err => {
@@ -230,9 +226,11 @@ export const MapScreen = (lat, lon) => {
          }}
         provider="google"
       >
-      <Marker
-        coordinate={{ latitude: lat,longitude: lon}}
-      />
+      {business.map((marker, index) => {
+          return (
+            <Marker key={index} coordinate={{ latitude: marker.latitude, longitude: marker.longitude}}/>
+          );
+        })}
       </MapView>
       <ScrollView
         horizontal
@@ -257,65 +255,10 @@ export const MapScreen = (lat, lon) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <Animated.ScrollView
-        //ref={_scrollView}
-        horizontal
-        pagingEnabled
-        scrollEventThrottle={1}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 20}
-        snapToAlignment="center"
-        style={styles.scrollView}
-        contentInset={{
-          top: 0,
-          left: SPACING_FOR_CARD_INSET,
-          bottom: 0,
-          right: SPACING_FOR_CARD_INSET
-        }}
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0
-        }}
-        /*onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: mapAnimation,
-                }
-              },
-            },
-          ],
-          {useNativeDriver: true}
-        )}*/
-      >
-        {state.markers.map((marker, index) =>(
-          <View style={styles.card} key={index}>
-            <Image 
-              source={marker.image}
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
-            <View style={styles.textContent}>
-              <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-              {/*<StarRating ratings={marker.rating} reviews={marker.reviews} />*/}
-              <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
-              {/*<View style={styles.button}>
-                <TouchableOpacity
-                  onPress={() => {}}
-                  style={[styles.signIn, {
-                    borderColor: '#FF6347',
-                    borderWidth: 1
-                  }]}
-                >
-                  <Text style={[styles.textSign, {
-                    color: '#FF6347'
-                  }]}>Order Now</Text>
-                </TouchableOpacity>
-                </View>*/}
-            </View>
-          </View>
-        ))}
-      </Animated.ScrollView>
+      {/*<AnimatedScrollView />*/}
+      <View>
+        {AnimatedScrollView(business)}
+      </View>
   </View>
   )
 }
