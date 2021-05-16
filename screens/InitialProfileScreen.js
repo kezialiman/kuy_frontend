@@ -6,27 +6,32 @@ import { StyleSheet, Text, View, Image, Button,
 import {useState, useEffect} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCookies } from "react-cookie";
+import Cookies from 'universal-cookie';
 //import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
  
 export const InitialProfileScreen = ({ route, navigation }) => {
     const { user } = route.params;
 
-    // const [cookies, setCookie] = useCookies(["user"]);
+
+    const [cookies, setCookie] = useCookies(["access_token"]);
   
     // function delCookie(){
     //   cookies.set('access_token', {expires: Date.now()});
     // }
 
+    //onst cookies = new Cookies();
+    //ookies.set('access_token', user.id, { path: '/' });
+    
+    //console.log(cookies.get('access_token'))
+
     console.log("user from google", user);
 
-    // setCookie("access_token", user.id, {
-    //   path:'/'
-    // });
-
-    
+    setCookie("access_token", user.id, {
+    path:'/'
+    });
    
-   // console.log("Cookies",cookies);
+    console.log("Initial profile cookie",cookies);
     
     //check if this obtained user id from google exists in json
     const userID = user.id;

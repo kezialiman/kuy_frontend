@@ -37,6 +37,7 @@
     "react-navigation": "^4.4.4",
     "react-simple-pull-to-refresh": "^1.2.3",
     "rn-sliding-up-panel": "^2.4.5",
+    "universal-cookie": "^4.0.4",
     "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {
