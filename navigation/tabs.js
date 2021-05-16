@@ -42,6 +42,7 @@ export const Tabs = () => {
             <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Login</Text>
           </View>
         ),
+        tabBarVisible: false,
       }}
       />
         <Tab.Screen name="Search" component={MapNavigator} options={{
