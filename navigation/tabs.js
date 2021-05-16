@@ -45,6 +45,24 @@ export const Tabs = () => {
         tabBarVisible: false,
       }}
       />
+      <Tab.Screen name="Schedule" component={ScheduleScreen} options={{
+        tabBarIcon: ({focused}) =>(
+          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+            <Image
+              source={require('../assets/icons/calendar.png')}
+              resizeMode='contain'
+              style={{
+                width: 25,
+                height: 25,
+                marginTop: 10,
+                marginBottom: 5,
+                tintColor: focused ? '#2898FA' : '#748c94'
+              }}
+            />
+            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Schedule</Text>
+          </View>
+        ),
+      }}/>
         <Tab.Screen name="Search" component={MapNavigator} options={{
         tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
@@ -79,24 +97,6 @@ export const Tabs = () => {
               }}
             />
             <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Chat</Text>
-          </View>
-        ),
-      }}/>
-      <Tab.Screen name="Schedule" component={ScheduleScreen} options={{
-        tabBarIcon: ({focused}) =>(
-          <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
-            <Image
-              source={require('../assets/icons/calendar.png')}
-              resizeMode='contain'
-              style={{
-                width: 25,
-                height: 25,
-                marginTop: 10,
-                marginBottom: 5,
-                tintColor: focused ? '#2898FA' : '#748c94'
-              }}
-            />
-            <Text style={{color: focused ? '#2898FA' : '#748c94', fontSize: 12, textAlignVertical: "center",textAlign: "center"}}>Schedule</Text>
           </View>
         ),
       }}/>
