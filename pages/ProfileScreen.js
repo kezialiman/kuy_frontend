@@ -1,8 +1,34 @@
-import React from 'react';
-import { View, ScrollView, TouchableOpacity, Text, Button, Image, StyleSheet } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import React, {useEffect, useState} from 'react';
+import { View, ScrollView, TouchableOpacity, Text, Button, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { Rating } from 'react-native-ratings';
 
-export const ProfileScreen = () => {
+const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
+
+export const ProfileScreen = ({ navigation }) => {
+  const [isLoading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  console.log(data)
+
+  // "/review?user_id="
+  useEffect(() => {
+    console.log("Fetching data from heroku")
+    setLoading(true)
+    fetch(HEROKU_URL +'/users?access_token=1234')
+      .then((response) => response.json())
+      .then((results) => setData(results))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (isLoading) {
+    console.log("Still loading")
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#5500dc" />
+      </View>
+    );
+  }
   return (
     <View style={{
       backgroundColor: 'white'}}>
@@ -21,26 +47,32 @@ export const ProfileScreen = () => {
           shadowColor: 'black',
           shadowOffset: { height: 2, width: 3}}}>
           <TouchableOpacity>
-              <Image 
-              source = {{uri:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png'}}
+          <Image 
+              source = {{uri: data.avatar}}
               style = {{ width: 175, 
               height: 175, 
               borderRadius: 150,
-              borderWidth: 10,
+              borderWidth: 5,
               borderColor: 'white',
               marginTop: -75
             }}/>
             </TouchableOpacity>
           </View>
+          <Button
+            title="Edit Profile"
+            onPress={() => navigation.navigate('EditProfile', {
+              userID: data.id
+            })}
+          />
           
           <View style = {{ alignItems: 'center' }}>
           <Text style = {{ fontSize: 25, marginTop: 10 }}>
-            John Doe
+           {data.name}
           </Text>
 
           <Rating
             type='star'
-            ratingCount={5}
+            ratingCount={ Math.round(data.rating)}
             imageSize={30}
             style = {{ padding: 10 }}
             readonly
@@ -48,7 +80,7 @@ export const ProfileScreen = () => {
             />
 
           <Text style = {{ fontSize: 15 }}>
-            21, Male
+            {data.gender}
           </Text>
 
           <Text style = {{ fontSize: 15, marginTop: 20 }}>
@@ -57,25 +89,16 @@ export const ProfileScreen = () => {
 
           <View style={styles.container}>
           <Text style = {{ fontSize: 15}}>
-          John likes ice cream and chocolate cookies.
+          {data.fun_fact}
           </Text>
       </View>
-      <View style={styles.container}>
-          <Text style = {{ fontSize: 15}}>
-          John likes ice cream and chocolate cookies.
-          </Text>
-      </View>
-      <View style={styles.container}>
-          <Text style = {{ fontSize: 15}}>
-            John likes ice cream and chocolate cookies.
-          </Text>
-      </View>
+
           
           </View>
       </ScrollView>
     </View>
 
-  )
+  );
 }
 
 const styles = StyleSheet.create({
