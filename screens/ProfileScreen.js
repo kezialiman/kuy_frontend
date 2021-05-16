@@ -15,6 +15,7 @@ const ProfileScreen = ({ route, navigation }) => {
     console.log("user from google", user);
     
     
+    
     //check if this obtained user id from google exists in json
     const userID = user.id;
     //var message;
@@ -32,9 +33,9 @@ const ProfileScreen = ({ route, navigation }) => {
         //const[fun_fact, setfun_fact] = useState([]);
        
         
-        const storeData = async () => {
+        const storeData = async (val) => {
             try {
-              await AsyncStorage.setItem('googleuser', JSON.stringify(user))
+              await AsyncStorage.setItem('googleuser', JSON.stringify(val))
             } catch (e) {
                 console.log(e);
               // saving error
@@ -61,11 +62,11 @@ const ProfileScreen = ({ route, navigation }) => {
                     //})
                 //any errors will be shown as an alert
                 .catch((error) => {
-                    setLoading(false);
+                    //setLoading(false);
                     alert(error)
                 })
                 //loading is now set to false showing the data(initially true)
-                //.finally(setLoading(false));
+                .finally(setLoading(false));
     
         }, [triggerEndpoint]);
         /*
@@ -77,6 +78,7 @@ const ProfileScreen = ({ route, navigation }) => {
    
 const logout = async () => {
     try {
+         
           navigation.navigate("Login");
         }
        catch (error) {
@@ -102,12 +104,12 @@ const logout = async () => {
         };
  
   //console.log(userID);
-  console.log(data.success);    
+  //console.log(data.success);    
   const message = data.success;
 
   const onClickUser = () => {
     setTriggerEndpoint(true);
-    storeData;
+ 
     if (message == true) {
         alert("Account Found");
         //go to nicole's page
@@ -123,7 +125,8 @@ const logout = async () => {
         alert("Please continue to register account.");
         //signup;
         try {
-            navigation.navigate("SignUp");
+            //storeData;
+            navigation.navigate("SignUp", {userData: user});
           }
          catch (error) {
           console.log("SignUp.js 19 | error with signup", error);

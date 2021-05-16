@@ -1,26 +1,37 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Input, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Button, Input, TextInput,} from 'react-native';
 import {useState, useEffect} from "react";
+import {Picker} from '@react-native-community/picker'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import { Dropdown } from 'react-native-material-dropdown';
+//import Select from "react-dropdown-select";
 
 
 
-const SignUpScreen = ({navigation }) => {
+const SignUpScreen = ({route, navigation}) => {
   const [triggerEndpoint, setTriggerEndpoint] = useState(false);
-  const [user, setUser] = useState();
+  const [selectedGender, setSelectedGender] = useState('male');
+  //const [user, setUser] = useState();
+  const {userData} = route.params;
+
+
   const [gender, setGender] = useState([]);
   const [fun_fact, setFun_Fact] = useState([]);
 
 
   const [isLoaded, setLoaded] = useState(false);
 
-  var name = "";
-  var avatar = "";
-  var email = "";
-  var access_token = "";
+  var name = userData.name;
+  var avatar = userData.photoUrl;
+  var email = userData.email;
+  var access_token = userData.id;
 
-
-const getData = async () => {
+  const genderChoice = [
+    {      value: 'male',    },
+    {      value: 'female',    },
+    {      value: 'unspecified',    }];
+  
+/*const getData = async () => {
   try {
     const jsonValue =  await AsyncStorage.getItem('googleuser')
     jsonValue != null ? 
@@ -33,12 +44,14 @@ const getData = async () => {
   } catch(e) {
     // error reading value
   }
-}
-useEffect(() => {
-
-  getData();
-}, [])
-
+} */
+  /*
+  useEffect(() => {
+    //getData();
+    setUser(userData);
+    console.log('Gooogle', userData);
+  }, [])
+*/
     //useEffect(() => {
       //getData();
     //  console.log('Gooogle', user);
@@ -46,14 +59,14 @@ useEffect(() => {
    
 
   //console.log('Current User', user);
-  if(typeof user !== "undefined")
+ /* if(typeof user !== "undefined")
 {
   name = user.user.name;
   email = user.user.email;
   avatar = user.user.photoUrl;
   access_token = user.user.id;
-}
-
+} */
+    //setUser(userData)
   
   const [data, setData] = React.useState({
       name: name,
@@ -78,12 +91,14 @@ useEffect(() => {
 
 const changeGender = (val) => {
   if(val.length != 0) {
+    setSelectedGender(val)
     setData({
       ...data,
       gender: val,
       
     });
   } else {
+    setSelectedGender(val)
     setData({
       ...data,
       gender: val,
@@ -114,6 +129,7 @@ const changeFun = (val) => {
 
   const logout = async () => {
     try {
+         
           navigation.navigate("Login");
         }
        catch (error) {
@@ -122,10 +138,10 @@ const changeFun = (val) => {
     };
 
     async function postData(){
-      populateData();
+      //populateData();
       try {
         console.log("Posting data...")
-        //console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data))
         await fetch("http://kuy-hangout.herokuapp.com/users/", {
           method: 'POST',
           body: JSON.stringify({
@@ -133,8 +149,8 @@ const changeFun = (val) => {
             access_token: data.access_token,
             email: data.email,
             gender: data.gender,
-            fun_fact: data.fun_fact,
-            avatar: data.avatar
+            fun_fact: data.fun_fact
+            //avatar: data.avatar
           }),
   
           headers:{
@@ -158,14 +174,15 @@ const changeFun = (val) => {
       
       <Text style={styles.text_footer}> Gender </Text>
       <View style={styles.action}>
-        
-        <TextInput
-          placeholder = "Enter your gender"
-          style={styles.textInput}
-          autoCapitalize='none'
-          onChangeText={(val) => changeGender(val)}
-          >
-        </TextInput>
+        <Picker
+          selectedValue={selectedGender}
+          style={{ height: '60%', width: 150, color: '#FFFF'}}
+          onValueChange={(itemValue) => changeGender(itemValue)}
+        >
+          <Picker.Item label="male" value="male" />
+          <Picker.Item label="female" value="female" />
+          <Picker.Item label="unspecified" value="unspecified" />
+        </Picker>
       </View>
 
      
@@ -200,7 +217,11 @@ const changeFun = (val) => {
 
   );
 };
-
+/*      <Dropdown        
+      label='Select Gender'        
+      data={genderChoice}      
+      onChangeText={(val) => changeGender(val)}
+  		/>   */
 export default  SignUpScreen;
 
 
