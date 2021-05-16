@@ -4,7 +4,6 @@ import { useIsFocused } from "@react-navigation/native";
 import { useCookies } from "react-cookie"
 //import Cookies from 'universal-cookie';
 
-
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
 
 export const ProfileScreen = ({ navigation }) => {
