@@ -12,7 +12,7 @@ const foo = () => {
   )
 }
 
-export function ChatScreen ({navigation}) {
+export function VenueScreen ({navigation}) {
   // Fetch data for events
   const [events, setEvents] = useState({});
   const [id, setId] = useState([]);
@@ -89,7 +89,7 @@ export function ChatScreen ({navigation}) {
           }
         />
       </View>
-      <Button title="Add" background="../assets/icons/add.png" onPress={() => navigation.navigate('BookNow')}></Button>
+      <Button title="Add" onPress={() => navigation.navigate('BookNow')}></Button>
     </View>
   )
 }
@@ -161,19 +161,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10
    },
-  item: {
+   item: {
      padding: 10,
      fontSize: 18,
      height: 44,
    },
-  addButton: {
-    position: 'absolute',
-    left: '75.47%',
-    right: '6.67%',
-    top: '80.67%',
-    bottom: '13.67%',
-
-    backgroundColor: '#2898FA',
-    borderRadius: 6.5,
-  }
 });

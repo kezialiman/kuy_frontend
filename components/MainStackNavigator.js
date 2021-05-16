@@ -6,8 +6,10 @@ import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
 import { ChatScreen } from "../pages/ChatScreen";
 import { SearchScreen } from "../pages/SearchScreen";
+import { VenueScreen } from "../pages/VenueScreen";
 import { EditProfileScreen } from "../pages/EditProfileScreen";
 import { Animated } from "react-native"
+import { BookNowScreen } from '../pages/BookNowScreen';
 
 const Stack = createStackNavigator();
 
@@ -67,6 +69,16 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+      <Stack.Screen
+        name="Venue"
+        component={VenueScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+      <Stack.Screen
+        name="BookNow"
+        component={BookNowScreen}
         options={{ headerStyleInterpolator: forFade }}
       />
     </Stack.Navigator>)
