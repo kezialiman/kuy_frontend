@@ -50,7 +50,7 @@ export const ProfileScreen = ({ navigation }) => {
           shadowOffset: { height: 2, width: 3}}}>
           <TouchableOpacity>
           <Image 
-              source = {{uri: data.avatar}}
+              source = {require('../assets/photo.png')}
               style = {{ width: 150, 
               height: 150, 
               borderRadius: 150,
