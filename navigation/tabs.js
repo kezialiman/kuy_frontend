@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
-import { ProfileNavigator } from "../components/MainStackNavigator";
+import { ProfileNavigator, ChatNavigator, MapNavigator } from "../components/MainStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +25,7 @@ export const Tabs = () => {
             ...styles.shadow
           }
         }}>
-        <Tab.Screen name="Search" component={MapScreen} options={{
+        <Tab.Screen name="Search" component={MapNavigator} options={{
         tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
             <Image

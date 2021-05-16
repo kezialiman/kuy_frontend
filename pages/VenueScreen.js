@@ -1,169 +1,171 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import FlatListBasics from '../components/FlatListBasics';
-import { BookNowScreen } from './BookNowScreen';
-import {actions} from "./ChatScreen";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
 
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/";
 
-const foo = () => {
-  alert(
-    "hi"
-  )
-}
-
-export function VenueScreen ({navigation}) {
+export const VenueScreen = ({route, navigation}) => {
   // Fetch data for events
-  const [events, setEvents] = useState({});
-  const [id, setId] = useState([]);
-  const inputLocation = {
-    placeId: "",
-    placeName: "Chipotle",
-    location: "2121 dwight way",
-  };
-  const utcTime = new Date();
+  const [eventData, setEventData] = useState([]);
+  const isFocused = useIsFocused();
+  const { data } = route.params;
 
   useEffect(() => {
-    fetch(HEROKU_URL + `events?place_id=${inputLocation.placeId}`, {
+    fetch(HEROKU_URL + `events?place_id=${data.id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         }
     })
-    .then( resp => resp.json())
-    .then( resp => {
-      var idArray = new Array();
-      const test_data = Object(resp.data)
+    .then(resp => resp.json())
+    .then(resp => {
+      var eventArray = new Array();
+      const getEventData = Object(resp.data)
       for (i = 0; i < resp.data.length; i++) {
-        idArray.push({
-          "place_id": test_data[i].place_id,
-          "host_id": test_data[i].host_id,
-          "host_name": test_data[i].host_name,
+        eventArray.push({
+          "place_id": getEventData[i].place_id,
+          "host_id": getEventData[i].host_id,
+          "host_name": getEventData[i].host_name,
           "start_time": [
-            test_data[i].start_time.split("T")[0].split("-").slice(1, 3).join("/"), 
-            test_data[i].start_time.split("T")[1].split(":").slice(0, 2).join(":")
+            getEventData[i].start_time.split("T")[0].split("-").join("-"), " ", 
+            getEventData[i].start_time.split("T")[1].split(":").slice(0, 2).join(":")
           ],
-          "end_time": test_data[i].end_time,
-          "party_size": test_data[i].party_size,
+          "end_time": [
+            getEventData[i].end_time.split("T")[0].split("-").join("-"), " ", 
+            getEventData[i].end_time.split("T")[1].split(":").slice(0, 2).join(":")
+          ],
+          "party_size": getEventData[i].party_size,
         });
       }
-      setId(idArray);
-      setEvents(Object(resp.data))
+      setEventData(eventArray);
     })
     .catch( error => console.log(error))
-  },[]);
+  }, [isFocused]);
 
-  // const [host, setHost] = useState([]);
-  // for (const event of id) {
-  //   useEffect(() => {
-  //     fetch(HEROKU_URL + `users?id=${event.host_id}`, {
-  //         method: 'GET',
-  //         headers: {
-  //             'Content-Type': 'application/json',
-  //         }
-  //     })
-  //     .then( resp => resp.json())
-  //     .then( resp => setHost(resp))
-  //     .catch( error => console.log(error))
-  //   },[]);
-  // }
-
-  const venue = inputLocation.placeName;
-  const location = inputLocation.location;
+  const venue = data.name;
+  const location = data.address;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.sectionTitle}>{venue}</Text>
-        <Text style={styles.sectionTitle}>{location}</Text>
-      </View>
-      <View style={styles.container}>
-        <FlatList
-          data={id}
-          renderItem={({item}) => 
-          <Text>
-          <Text style={styles.item}>{item.host_name} is waiting for you on </Text>
-          <Text>{item.start_time[0]}</Text>
-          <Text> at {item.start_time[1]}</Text>
+    <View style = {{marginBottom: 130}}>
+      <ScrollView>
+        <View style = {{
+          marginTop: 30,
+          alignItems: 'center',
+          shadowOpacity: 0.1,
+          shadowRadius: 1,
+          shadowColor: 'black',
+          shadowOffset: { height: 2, width: 3}}}>
+          </View>
+          
+          <View style = {{ alignItems: 'center' }}>
+          <Text style = {{ fontSize: 25 , fontWeight: 'bold', marginBottom: 5}}>
+          {venue}
           </Text>
-          }
-        />
-      </View>
-      <Button title="Add" onPress={() => navigation.navigate('BookNow')}></Button>
+          <Text style = {{ fontSize: 15, marginBottom: 15, marginLeft: 10, marginRight: 10}}>
+          {location}
+          </Text>
+
+          <View style={styles.button}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('BookNowScreen',
+                { place_id: data.id, city: data.city })}
+                style={[styles.signIn, {
+                  borderColor: '#FF6347',
+                  borderWidth: 1,
+                  marginTop: -10,
+                }]}
+              >
+              <Text style={[styles.textSign, {
+                color: '#FF6347'
+                }]}>Create new event</Text>
+              </TouchableOpacity>
+          </View>
+
+          {eventData.map((marker, index) =>(
+            <View style={styles.container} key={index}>
+            <View style={styles.itemRight}>
+            <Image 
+              source = {{uri:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png'}}
+              style = {{ width: 75, 
+              height: 75, 
+              borderRadius: 150
+            }}/>
+            </View>
+            <View style={styles.itemLeft}>
+              <Text style = {{ fontSize: 15 , fontWeight: 'bold', marginBottom: 5}}>
+                {marker.host_name}
+              </Text>
+              <Text style = {{ fontSize: 12 }}>
+                Start Time: {marker.start_time}
+              </Text>
+              <Text style = {{ fontSize: 12 }}>
+                End Time: {marker.end_time}
+              </Text>
+              <Text style = {{ fontSize: 12 }}>
+                Max Party: {marker.party_size}
+              </Text>
+              <View style={styles.button}>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={[styles.signIn, {
+                  borderColor: '#FF6347',
+                  borderWidth: 1
+                }]}
+              >
+              <Text style={[styles.textSign, {
+                color: '#FF6347'
+                }]}>Join</Text>
+              </TouchableOpacity>
+              </View>
+
+            
+            </View> 
+          </View>
+        ))}
+          
+          </View>
+      </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  containerBody: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: "#fff",
-    alignItems: 'center',
-  },
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: "#fff",
-  //   alignItems: 'center',
-  // },
-  appButtonContainer: {
-    elevation: 8,
-    backgroundColor: "#2898FA",
-    borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 18,
-  },
-  appButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    alignSelf: "center",
-    textTransform: "uppercase"
-  },
-  header: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: 'center'
-  },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 40,
-    alignItems: 'center'
-  },
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-  },
-  input: {
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  card: {
-      minWidth: 275,
-      maxHeight: 190,
-  },
-  flexContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 0,
-  },
   container: {
-    flex: 1,
-    paddingTop: 10
-   },
-   item: {
-     padding: 10,
-     fontSize: 18,
-     height: 44,
-   },
+    marginTop: 10,
+    marginBottom: 10,
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F9F9FB',
+    padding: 20,
+    width: 325,
+    height: 125,
+    borderRadius: 15,
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 2, width: 3}
+  },
+  itemRight: {
+    width: '30%',
+  },
+  itemLeft: {
+    width: '70%',
+  },
+  textSign: {
+    fontSize: 14,
+    fontWeight: 'bold'
+  },
+  button: {
+    alignItems: 'center',
+    marginTop: 5
+  },
+  signIn: {
+    width: '100%',
+    padding:5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3
+  }
 });

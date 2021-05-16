@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Dimensions, StyleSheet, View, Text, Button, ScrollView, TouchableOpacity, Animated, Image, Platform } from "react-native"
 import MapView, { Marker } from 'react-native-maps';
 import { SearchBar } from 'react-native-elements';
@@ -9,10 +9,11 @@ import { markers } from '../components/MapData';
 import { AnimatedScrollView } from '../components/AnimatedScrollView';
 
 const { width } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 90;
 const CARD_WIDTH = width * 0.8;
+const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
-export function MapScreen() {
+export function MapScreen({navigation}) {
   const initialMapState = {
     markers,
     categories: [
@@ -54,6 +55,8 @@ export function MapScreen() {
   const [triggerEndpoint, setTriggerEndpoint] = useState(false);
   const [business, setBusiness] = useState([]);
 
+  const _scrollView = useRef(null);
+
   const YELP_API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
   const limit = 5;
   const apiKey = `uK0JUUSXQwYpuFFWA0kGd2n7OhEncuw052h4mjpNQ366_ZLfY2on8U8ou4GuI_DShZqhG4FBQScaZMUAnVRlo376vwiZ8m1qlTl8FLt_6JhpWtLyN5LaGy6Yht2dYHYx`;
@@ -80,11 +83,15 @@ export function MapScreen() {
 
         for(i = 0; i < results.businesses.length; i++) {
           const business_data = Object(results.businesses[i]);
+
+          console.log(business_data)
           businessArray.push({
             "name": business_data.name,
             "address": business_data.location.display_address.join(),
-            "latitude" : business_data.coordinates.latitude,
-            "longitude" : business_data.coordinates.longitude
+            "latitude": business_data.coordinates.latitude,
+            "longitude": business_data.coordinates.longitude,
+            "city": business_data.location.city,
+            "id": business_data.id
           })
         }
         setBusiness(businessArray);
@@ -112,7 +119,7 @@ export function MapScreen() {
             backgroundColor: 'transparent',
             borderTopWidth: 0,
             borderBottomWidth: 0,
-            marginTop: 35
+            //marginTop: 35
           }}
           inputContainerStyle={{
             backgroundColor: '#fff'
@@ -161,9 +168,54 @@ export function MapScreen() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <View>
-        {AnimatedScrollView(business)}
-      </View>
+      <Animated.ScrollView
+        ref={_scrollView}
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={CARD_WIDTH + 20}
+        snapToAlignment="center"
+        style={styles.scrollView}
+        contentInset={{
+          top: 0,
+          left: SPACING_FOR_CARD_INSET,
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET
+        }}
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0
+        }}
+      >
+        {business.map((marker, index) =>(
+          <View style={styles.card} key={index}>
+            <View style={styles.textContent}>
+              <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
+              <Text numberOfLines={1} style={styles.cardDescription}>{marker.address}</Text>
+              <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('VenueScreen', {
+                    data: {
+                      name: marker.name,
+                      address: marker.address,
+                      city: marker.city,
+                      id: marker.id
+                    }
+                  })}
+                  style={[styles.signIn, {
+                    borderColor: '#FF6347',
+                    borderWidth: 1
+                  }]}
+                >
+                  <Text style={[styles.textSign, {
+                    color: '#FF6347'
+                  }]}>Find a friend</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+          </View>
+        ))}
+      </Animated.ScrollView>
   </View>
   )
 }
@@ -181,7 +233,7 @@ const styles = StyleSheet.create({
 	},
   chipsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 110 : 80, 
+    top:Platform.OS === 'ios' ? 70 : 80, 
     paddingHorizontal:10
   },
   chipsIcon: {
@@ -207,7 +259,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingVertical: 10,
-    marginBottom: 230,
+    marginBottom: 280,
   },
   endPadding: {
     paddingRight: width - CARD_WIDTH,

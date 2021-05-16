@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Dimensions, StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Platform } from "react-native"
-import { markers } from '../components/MapData';
+import React, { useRef } from 'react';
+import { Dimensions, StyleSheet, View, Text, TouchableOpacity, Animated, Platform } from "react-native"
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -9,7 +8,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingVertical: 10,
-    marginBottom: 230,
+    marginBottom: 280,
   },
   card: {
     elevation: 2,
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
@@ -96,7 +95,9 @@ export const AnimatedScrollView = (business) => {
               <Text numberOfLines={1} style={styles.cardDescription}>{marker.address}</Text>
               <View style={styles.button}>
                 <TouchableOpacity
-                  onPress={() => {}}
+                  onPress={() => navigation.navigate('VenueScreen', {
+                    data: business
+                  })}
                   style={[styles.signIn, {
                     borderColor: '#FF6347',
                     borderWidth: 1
