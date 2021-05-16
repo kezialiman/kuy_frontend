@@ -8,26 +8,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCookies } from "react-cookie";
 //import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
-
  
-const ProfileScreen = ({ route, navigation }) => {
+export const InitialProfileScreen = ({ route, navigation }) => {
     const { user } = route.params;
 
-    const [cookies, setCookie] = useCookies(["user"]);
+    // const [cookies, setCookie] = useCookies(["user"]);
   
-      setCookie("access_token", 'user.id', {
-            path: "/"
-          });
-      
-    
-    function delCookie(){
-      cookies.set('access_token', {expires: Date.now()});
-    }
+    // function delCookie(){
+    //   cookies.set('access_token', {expires: Date.now()});
+    // }
 
     console.log("user from google", user);
+
+    // setCookie("access_token", user.id, {
+    //   path:'/'
+    // });
+
     
    
-    console.log("Cookies",cookies);
+   // console.log("Cookies",cookies);
     
     //check if this obtained user id from google exists in json
     const userID = user.id;
@@ -125,6 +124,7 @@ const logout = async () => {
     
     if (message == true) {
         alert("Account Found");
+        navigation.navigate('Map');
         //go to nicole's page
         /*
         try {
@@ -159,7 +159,7 @@ const logout = async () => {
           color='white'
             onPress={     
                        //alert('yes')
-                    onClickUser
+                       () => navigation.navigate("Profile")
 
                     
                     
@@ -206,7 +206,7 @@ const logout = async () => {
     </FlatList>
     </View>} 
 */
-export default ProfileScreen;
+export default InitialProfileScreen;
 
 const styles = StyleSheet.create({
     container: {
