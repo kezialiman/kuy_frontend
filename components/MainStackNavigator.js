@@ -6,8 +6,11 @@ import { ProfileScreen } from "../pages/ProfileScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
 import { ChatScreen } from "../pages/ChatScreen";
 import { SearchScreen } from "../pages/SearchScreen";
+import { VenueScreen } from "../pages/VenueScreen";
 import { EditProfileScreen } from "../pages/EditProfileScreen";
 import { Animated } from "react-native"
+import { BookNowScreen } from '../pages/BookNowScreen';
+import { AnimatedScrollView } from '../components/AnimatedScrollView';
 
 const Stack = createStackNavigator();
 
@@ -45,14 +48,41 @@ export function ProfileNavigator() {
   )
 }
 
-export function MainStackNavigator() {
+export function MapNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+    <Stack.Screen
         name="Map"
         component={MapScreen}
         options={{ headerStyleInterpolator: forFade }}
       />
+    <Stack.Screen
+        name="AnimatedScrollView"
+        component={AnimatedScrollView}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+    <Stack.Screen
+        name="VenueScreen"
+        component={VenueScreen}
+        options={{ headerStyleInterpolator: forFade }}
+    />
+    <Stack.Screen
+        name="BookNowScreen"
+        component={BookNowScreen}
+        options={{ headerStyleInterpolator: forFade }}
+    />
+    </Stack.Navigator>
+  )
+}
+
+export function MainStackNavigator() {
+  return (
+    <Stack.Navigator>
+      {/*<Stack.Screen
+        name="Map"
+        component={MapScreen}
+        options={{ headerStyleInterpolator: forFade }}
+      />*/}
       <Stack.Screen
         name="Home"
         component={HomeScreen}

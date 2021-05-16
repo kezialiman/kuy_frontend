@@ -19,7 +19,7 @@ export function HomeScreen({ navigation }) {
       />
       <Button
         title="Go to Chat"
-        onPress={() => navigation.navigate('Chat')}
+        onPress={() => navigation.navigate('Venue')}
       />
       <Button
         title="Go to Search"
