@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView, Image} from 'react-native';
+import { useCookies } from 'react-cookie'
 
 export const ScheduleScreen = () => {
+  const [cookies] = useCookies(["access_token"]);
+  const currCookie = cookies;
+  console.log('Cookie on profile', currCookie)
+  
   return (
     <View>
       <ScrollView>

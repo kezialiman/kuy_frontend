@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
+import { useCookies } from 'react-cookie'
 
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/";
 
@@ -9,6 +10,10 @@ export const VenueScreen = ({route, navigation}) => {
   const [eventData, setEventData] = useState([]);
   const isFocused = useIsFocused();
   const { data } = route.params;
+
+  const [cookies] = useCookies(["access_token"]);
+  const currCookie = cookies;
+  console.log('Cookie on profile', currCookie)
 
   useEffect(() => {
     fetch(HEROKU_URL + `events?place_id=${data.id}`, {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Input } from 'react-native-elements'
+import { useCookies } from 'react-cookie'
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
 
 export const BookNowScreen = ({route, navigation}) => {
@@ -10,10 +11,14 @@ export const BookNowScreen = ({route, navigation}) => {
   const [notesInputValue, setNotesInputValue] = React.useState('');
   const [data, setData] = useState([]);
 
+  const [cookies] = useCookies(["access_token"]);
+  const currCookie = cookies;
+  console.log('Cookie on profile', currCookie)
+
   const { place_id, city } = route.params;
   useEffect(() => {
     console.log("Fetching data from heroku")
-    fetch(HEROKU_URL +'/users?access_token=12345689')
+    fetch(HEROKU_URL +'/users?access_token=' + currCookie.access_token)
       .then((response) => response.json())
       .then((results) => setData(results))
       .catch((error) => console.error(error))

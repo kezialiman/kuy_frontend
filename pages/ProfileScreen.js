@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { View, ScrollView, TouchableOpacity, Text, Button, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 import { useCookies } from "react-cookie"
+//import Cookies from 'universal-cookie';
+
 
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
 
@@ -9,16 +11,14 @@ export const ProfileScreen = ({ navigation }) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const isFocused = useIsFocused();
-  //const [cookies, setCookie] = useCookies(["users"]);
-
-  //cookies.get("access_token")
-  //console.log(c)
-
+  const [cookies] = useCookies(["access_token"]);
+  const currCookie = cookies;
+  console.log('Cookie on profile', currCookie)
 
   useEffect(() => {
     console.log("Fetching data from heroku")
     setLoading(true)
-    fetch(HEROKU_URL +'/users?access_token=12345689')
+    fetch(HEROKU_URL +'/users?access_token=' + currCookie.access_token)
       .then((response) => response.json())
       .then((results) => setData(results))
       .catch((error) => console.error(error))
