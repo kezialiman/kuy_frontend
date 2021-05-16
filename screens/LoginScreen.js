@@ -11,6 +11,7 @@ import * as Google from "expo-google-app-auth";
 const LoginScreen = ({ navigation }) => {
 //where to fetch API data
 
+
   const signInAsync = async () => {
     console.log("LoginScreen.js 6 | loggin in");
     try {

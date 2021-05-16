@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image, Button,
     FlatList } from "react-native";
 import {useState, useEffect} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCookies } from "react-cookie";
 //import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 
@@ -12,9 +13,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ProfileScreen = ({ route, navigation }) => {
     const { user } = route.params;
 
+    const [cookies, setCookie] = useCookies(["user"]);
+  
+      setCookie("access_token", 'user.id', {
+            path: "/"
+          });
+      
+    
+    function delCookie(){
+      cookies.set('access_token', {expires: Date.now()});
+    }
+
     console.log("user from google", user);
     
-    
+   
+    console.log("Cookies",cookies);
     
     //check if this obtained user id from google exists in json
     const userID = user.id;
@@ -78,7 +91,7 @@ const ProfileScreen = ({ route, navigation }) => {
    
 const logout = async () => {
     try {
-         
+         delCookie;
           navigation.navigate("Login");
         }
        catch (error) {
@@ -109,7 +122,7 @@ const logout = async () => {
 
   const onClickUser = () => {
     setTriggerEndpoint(true);
- 
+    
     if (message == true) {
         alert("Account Found");
         //go to nicole's page

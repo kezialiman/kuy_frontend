@@ -67,6 +67,10 @@ const SignUpScreen = ({route, navigation}) => {
   access_token = user.user.id;
 } */
     //setUser(userData)
+
+    function delCookie(){
+      cookies.set('access_token', {expires: Date.now()});
+    }
   
   const [data, setData] = React.useState({
       name: name,
@@ -129,7 +133,7 @@ const changeFun = (val) => {
 
   const logout = async () => {
     try {
-         
+          delCookie;
           navigation.navigate("Login");
         }
        catch (error) {
