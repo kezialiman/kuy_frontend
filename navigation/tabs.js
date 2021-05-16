@@ -34,6 +34,8 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
+                marginTop: 10,
+                marginBottom: 5,
                 tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
@@ -51,6 +53,8 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
+                marginTop: 10,
+                marginBottom: 5,
                 tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
@@ -67,6 +71,8 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
+                marginTop: 10,
+                marginBottom: 5,
                 tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
@@ -83,6 +89,8 @@ export const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
+                marginTop: 10,
+                marginBottom: 5,
                 tintColor: focused ? '#2898FA' : '#748c94'
               }}
             />
