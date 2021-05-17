@@ -1,25 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Input, TextInput,} from 'react-native';
-import {useState, useEffect} from "react";
-import {Picker} from '@react-native-community/picker'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-//import { Dropdown } from 'react-native-material-dropdown';
-//import Select from "react-dropdown-select";
-
-
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { useState } from "react";
+import { Picker } from '@react-native-community/picker'
 
 export const SignUpScreen = ({route, navigation}) => {
-  const [triggerEndpoint, setTriggerEndpoint] = useState(false);
   const [selectedGender, setSelectedGender] = useState('male');
-  //const [user, setUser] = useState();
   const {userData} = route.params;
-
-
-  const [gender, setGender] = useState([]);
-  const [fun_fact, setFun_Fact] = useState([]);
-
-
-  const [isLoaded, setLoaded] = useState(false);
 
   var name = userData.name;
   var avatar = userData.photoUrl;
@@ -30,47 +16,10 @@ export const SignUpScreen = ({route, navigation}) => {
     {      value: 'male',    },
     {      value: 'female',    },
     {      value: 'unspecified',    }];
-  
-/*const getData = async () => {
-  try {
-    const jsonValue =  await AsyncStorage.getItem('googleuser')
-    jsonValue != null ? 
-    setUser(JSON.parse(jsonValue)):
-    console.log('aaaa')
 
-    //null;
-    
-   
-  } catch(e) {
-    // error reading value
+  function delCookie(){
+    cookies.set('access_token', {expires: Date.now()});
   }
-} */
-  /*
-  useEffect(() => {
-    //getData();
-    setUser(userData);
-    console.log('Gooogle', userData);
-  }, [])
-*/
-    //useEffect(() => {
-      //getData();
-    //  console.log('Gooogle', user);
-    //}, [triggerEndpoint]);
-   
-
-  //console.log('Current User', user);
- /* if(typeof user !== "undefined")
-{
-  name = user.user.name;
-  email = user.user.email;
-  avatar = user.user.photoUrl;
-  access_token = user.user.id;
-} */
-    //setUser(userData)
-
-    function delCookie(){
-      cookies.set('access_token', {expires: Date.now()});
-    }
   
   const [data, setData] = React.useState({
       name: name,
@@ -111,25 +60,19 @@ const changeGender = (val) => {
 }
 };
 
-
-const changeFun = (val) => {
-  if(val.length != 0) {
-    setData({
-      ...data,
-      fun_fact: val,
-
-
+  const changeFun = (val) => {
+    if(val.length != 0) {
+     setData({
+        ...data,
+        fun_fact: val,
+      });
+    } else {
+      setData({
+        ...data,
+        fun_fact: val,
     });
-  } else {
-    setData({
-      ...data,
-      fun_fact: val,
-   
-  });
-}
-};
-
-
+    }
+  };
 
   const logout = async () => {
     try {
@@ -142,7 +85,6 @@ const changeFun = (val) => {
     };
 
     async function postData(){
-      //populateData();
       try {
         console.log("Posting data...")
         console.log(JSON.stringify(data))
@@ -161,9 +103,6 @@ const changeFun = (val) => {
             'Content-Type': 'application/json; charset=UTF-8'
           }
         })
-        //.then(response => response.json())
-        //.then(json => console.log(json))
-        //.then(navigation.navigate('Profile'))
       }
       catch (e) {
         console.log(e)
@@ -171,11 +110,10 @@ const changeFun = (val) => {
       }
       alert('Changes saved');
     }
+  
   return (
-  <View style={styles.container}>
+    <View style={styles.container}>
     <View style={styles.header}>
- 
-      
       <Text style={styles.text_footer}> Select Gender </Text>
       <View style={styles.action}>
         <Picker
@@ -188,7 +126,6 @@ const changeFun = (val) => {
           <Picker.Item label="unspecified" value="unspecified" />
         </Picker>
       </View>
-
      
       <Text style={styles.text_footer}> Enter Fun Fact </Text>
       <View style={styles.action}>
@@ -201,31 +138,20 @@ const changeFun = (val) => {
         </TextInput>
       </View>
 
-  
-      
-    </View>
-    <View style={styles.container3}>
-    
-    <Button title="Sign Up Now" onPress={postData} color='white'>
-
-    </Button>
-    </View>
-  
+      </View>
+      <View style={styles.container3}>
+        <Button title="Sign Up Now" onPress={postData} color='white'>
+        </Button>
+      </View>
     <View style={styles.container2}>
-    
-    <Button title="Cancel" onPress={logout} color='white'>
-
-    </Button>
+      <Button title="Cancel" onPress={logout} color='white'>
+      </Button>
     </View>
-  </View>
+    </View>
 
-  );
-};
-/*      <Dropdown        
-      label='Select Gender'        
-      data={genderChoice}      
-      onChangeText={(val) => changeGender(val)}
-  		/>   */
+    );
+  };
+
 export default  SignUpScreen;
 
 
@@ -263,45 +189,43 @@ const styles = StyleSheet.create({
     borderColor: 'black',
 },
 
-container2: {
-  backgroundColor: '#2898fa',
-  borderRadius: 5,
-  position: 'absolute',
-  width: '75%',
-  height: '5%',
-  left: '12%',
-  top: '80%',
-  flex: 2,
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  shadowOpacity: 0.4,
-  shadowRadius: 1,
-  shadowColor: 'black',
-  shadowOffset: { height: 2, width: 0},
-  borderColor: 'black',
-},
+  container2: {
+    backgroundColor: '#2898fa',
+    borderRadius: 5,
+    position: 'absolute',
+    width: '75%',
+    height: '5%',
+    left: '12%',
+    top: '80%',
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.4,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 2, width: 0},
+    borderColor: 'black',
+  },
 
-text_footer: {
-  color: '#05375a',
-  fontSize: 18,
-  marginTop: '5%'
-},
-textInput: {
-  flex: 1,
-  marginLeft: 25,
-  marginTop: '5%',
-  width: 20,
-  paddingLeft: 10,
-  color: '#05375a',
-},
-action: {
-  flexDirection: 'row',
-  borderBottomWidth: 1,
-  borderBottomColor: '#f2f2f2',
-  paddingBottom: 5
-}
+  text_footer: {
+    color: '#05375a',
+    fontSize: 18,
+    marginTop: '5%'
+  },
 
-
-
+  textInput: {
+    flex: 1,
+    marginLeft: 25,
+    marginTop: '5%',
+    width: 20,
+    paddingLeft: 10,
+    color: '#05375a',
+  },
+  action: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 5
+  }
 });

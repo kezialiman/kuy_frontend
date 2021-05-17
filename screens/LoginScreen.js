@@ -9,9 +9,6 @@ import * as Google from "expo-google-app-auth";
 
 
 export const LoginScreen = ({ navigation }) => {
-//where to fetch API data
-
-
   const signInAsync = async () => {
     console.log("LoginScreen.js 6 | loggin in");
     try {
@@ -43,18 +40,14 @@ export const LoginScreen = ({ navigation }) => {
             </Text>
           </SafeAreaView>
           <SafeAreaView style={styles.footer}>
-    <View style={styles.container2}>
-      <Button title="Sign in with Google" onPress={signInAsync} />
-    </View>
-
-          </SafeAreaView>
-
-
+          
+          <View style={styles.container2}>
+            <Button title="Sign in with Google" onPress={signInAsync} />
+          </View>
+        </SafeAreaView>
     </SafeAreaView>
-    
-    
-  );
-};
+    );
+  };
 
 export default LoginScreen;
 

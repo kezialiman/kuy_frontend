@@ -1,10 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MapScreen } from "../pages/MapScreen"; 
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { ChatScreen } from "../pages/ChatScreen";
 import { ScheduleScreen } from "../pages/ScheduleScreen";
-import { ProfileNavigator, ChatNavigator, MapNavigator, LoginNavigator } from "../components/MainStackNavigator";
+import { ProfileNavigator, MapNavigator, LoginNavigator } from "../components/MainStackNavigator";
 
 const Tab = createBottomTabNavigator();
 

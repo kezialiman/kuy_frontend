@@ -1,26 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Button,
-    Dimensions, 
-    ActivityIndicator, 
-    FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 import {useState, useEffect} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCookies } from "react-cookie";
-import Cookies from 'universal-cookie';
-//import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
- 
 export const InitialProfileScreen = ({ route, navigation }) => {
-    
     const { user } = route.params;
-
-
     const [cookies, setCookie] = useCookies(["access_token"]);
-
-    console.log("user from google", user);
-
     const currCookie = cookies;
-    console.log('here hereh herehre')
     console.log(currCookie)
     if (currCookie.access_token != null) {
       console.log("logout")
@@ -30,9 +17,6 @@ export const InitialProfileScreen = ({ route, navigation }) => {
     path:'/'
     });
 
-    //const [cookies] = useCookies(["access_token"]);
-    
-   
     console.log("Initial profile cookie",cookies);
     
     //check if this obtained user id from google exists in json
@@ -44,73 +28,43 @@ export const InitialProfileScreen = ({ route, navigation }) => {
       //sets initial as blank array
       const [data, setData] = useState([]);
       const [triggerEndpoint, setTriggerEndpoint] = useState(false);
-    
-        //Sets user parameters to blank
-        //const [id, setID] = useState([]);
-        //const[gender, setGender] = useState([]);
-    
-        //const[fun_fact, setfun_fact] = useState([]);
-       
         
-        const storeData = async (val) => {
-            try {
-              await AsyncStorage.setItem('googleuser', JSON.stringify(val))
-            } catch (e) {
-                console.log(e);
-              // saving error
-            }
-          };
+      const storeData = async (val) => {
+        try {
+          await AsyncStorage.setItem('googleuser', JSON.stringify(val))
+        } catch (e) {
+          alert(e);
+        }
+      };
         
-        useEffect(() => {
-            //take from heroku url
-            setLoading(true)
-            fetch(herokuUrl)
-                //put data into json format
-                .then((response) => response.json())
-                //take from users 'folder' and fetch data inside
-                .then((result) => {
-                    //console.log("result")
-                    //console.log(result);
-                    setLoading(false);
-                    setData(result)
-
-                })
-                    
-                    //setting name based on read name in json 
-                //setID(json.id);
-                    //})
-                //any errors will be shown as an alert
-                .catch((error) => {
-                    //setLoading(false);
-                    alert(error)
-                })
-                //loading is now set to false showing the data(initially true)
-                .finally(setLoading(false));
+      useEffect(() => {
+        //take from heroku url
+        setLoading(true)
+        fetch(herokuUrl)
+        //put data into json format
+        .then((response) => response.json())
+        //take from users 'folder' and fetch data inside
+        .then((result) => {
+          setLoading(false);
+          setData(result)
+        })
+        .catch((error) => {
+          //setLoading(false);
+          alert(error)
+        })
+        //loading is now set to false showing the data(initially true)
+        .finally(setLoading(false));
     
-        }, [triggerEndpoint]);
-        /*
-       async function getMessage(){
-            const response =  await fetch(herokuUrl);
-            const data =  await response.json();
-            return data.message;
-        } */
-   
-const logout = async () => {
-    try {
+      }, [triggerEndpoint]);
+      
+    const logout = async () => {
+      try {
           navigation.navigate("Login");
         }
        catch (error) {
         console.log("LoginScreen.js 19 | error with login", error);
       }
-    };
- /*const signup = async () => {
-    try {
-          navigation.navigate("SignUp");
-        }
-       catch (error) {
-        console.log("SignUp.js 19 | error with signup", error);
-      }
-    };*/
+      };
 
     const signup = () => {
         try {
@@ -121,28 +75,17 @@ const logout = async () => {
           }
         };
  
-  //console.log(userID);
-  //console.log(data.success);    
-  const message = data.success;
+  
+    const message = data.success;
 
-  const onClickUser = () => {
-    setTriggerEndpoint(true);
+    const onClickUser = () => {
+      setTriggerEndpoint(true);
     
-    if (message == true) {
+      if (message == true) {
         alert("Account Found");
         navigation.navigate('Map');
-        //go to nicole's page
-        /*
-        try {
-            navigation.navigate("Profile");
-          }
-         catch (error) {
-          console.log("Profile.js 19 | error with signup", error);
-        }
-        */
-    } else {
+      } else {
         alert("Please continue to register account.");
-        //signup;
         try {
             //storeData;
             navigation.navigate("SignUp", {userData: user});
@@ -150,68 +93,30 @@ const logout = async () => {
          catch (error) {
           console.log("SignUp.js 19 | error with signup", error);
         }
+      }
+      setTriggerEndpoint(false)
     }
-    setTriggerEndpoint(false)
-  }
 
-  let contAs = "Continue as " + user.name.split(" ")[0];
+    let contAs = "Continue as " + user.name.split(" ")[0];
 
-  return (
-    <View style={styles.container}>
-      <Text  style={styles.header}>Welcome, {user.name} !</Text>
-      <Image style={styles.image} source={{ uri: user.photoUrl }} />
-      <View style={styles.container2}>
-        <Button title= {contAs}
-          color='white'
-            onPress={     
-                       //alert('yes')
-                       () => navigation.navigate("Profile")
-
-                    
-                    
-                    
-                       //alert("not found")
-                        
-                     //alert(message)
-                    //console.log(this.state.id)
-                    //alert(userID)       
-            //checks if user id in json
-                    //userID in id ? 
-                        //if true go to nicole's profile page
-                        //alert('key exists') : 
-                        
-                        //if false go to account creation
-                        //alert('unknown key')
-            }
+    return (
+      <View style={styles.container}>
+        <Text  style={styles.header}>Welcome, {user.name} !</Text>
+        <Image style={styles.image} source={{ uri: user.photoUrl }} />
+        <View style={styles.container2}>
+          <Button title= {contAs}
+            color='white'
+            onPress={() => navigation.navigate("Profile")}
             >
-        </Button>
-
+          </Button>
+        </View>
+        <View style={styles.container2}>
+          <Button title="Logout" onPress={logout} color="white"/>
+        </View>
       </View>
-      <View style={styles.container2}>
-      <Button title="Logout" onPress={logout} color="white"/>
-      </View>
-    </View>
-  );
-};
-/* This is to extract id
-{isLoading?<ActivityIndicator/>:
-    //puts flatlist in secure view
-    <View>
-        <FlatList
-        data={data} 
-        keyExtractor={({id}, index) => id}
-        //creates item & list within the users.
-        renderItem={({item}) =>{
-            <Text>
-                List of User Elements Here: Name __, Gender___, etc 
-            </Text>
-    }}
-    >
+    );
+  };
 
-
-    </FlatList>
-    </View>} 
-*/
 export default InitialProfileScreen;
 
 const styles = StyleSheet.create({

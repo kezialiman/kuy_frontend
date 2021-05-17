@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Dimensions, StyleSheet, View, Text, Button, ScrollView, TouchableOpacity, Animated, Image, Platform } from "react-native"
+import { Dimensions, StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Platform } from "react-native"
 import MapView, { Marker } from 'react-native-maps';
 import { SearchBar } from 'react-native-elements';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { markers } from '../components/MapData';
-import { AnimatedScrollView } from '../components/AnimatedScrollView';
 
 const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 90;

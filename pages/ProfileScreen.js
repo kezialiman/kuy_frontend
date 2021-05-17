@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { View, ScrollView, TouchableOpacity, Text, Button, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 import { useCookies } from "react-cookie"
-//import Cookies from 'universal-cookie';
 
 const HEROKU_URL = "http://kuy-hangout.herokuapp.com/"
 
